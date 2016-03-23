@@ -22,3 +22,11 @@ Initial release: a working, honest local developer-loop process profiler.
       block I/O (`io`), open fds (`fd/`) and an optional host-wide network
       summary (`net/dev`). **Implemented.**
     - `fixture` — deterministic cross-platform replay of recorded timelines.
+      **Implemented.**
+    - `ebpf` — explicitly **not implemented**; returns `Error::Unsupported` and
+      never fabricates data. Gated behind the `ebpf` cargo feature.
+  - Robust `/proc/<pid>/stat` parser that handles `comm` values containing
+    spaces and parentheses.
+  - Pid filters: `All`, `Subtree(pid)`, `Set(pids)`.
+  - Live command runner (`run_and_profile`) that spawns a child, profiles its
+    process subtree on cadence, and records the exit code.
