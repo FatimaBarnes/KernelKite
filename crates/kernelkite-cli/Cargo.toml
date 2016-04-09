@@ -1,2 +1,4 @@
 [package]
 name = "kernelkite-cli"
+version.workspace = true
+edition.workspace = true
