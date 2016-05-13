@@ -49,3 +49,20 @@ pub enum Command {
     Run { out: String, command: Vec<String> },
     Replay { fixture: String, out: String },
     Summary { bundle: String },
+    Compare { before: String, after: String },
+    Tree { bundle: String },
+    Viewer { bundle: String, out: Option<String> },
+}
+
+impl Cli {
+    /// Parse an iterator of arguments (already skipping argv[0]).
+    pub fn parse<I: IntoIterator<Item = String>>(args: I) -> Result<Cli, String> {
+        let mut interval_ms = 100u64;
+        let mut max_frames = 100usize;
+        let mut label = None;
+        let mut network = false;
+        let mut json = false;
+
+        let mut it = args.into_iter().peekable();
+        let mut subcommand: Option<String> = None;
+
