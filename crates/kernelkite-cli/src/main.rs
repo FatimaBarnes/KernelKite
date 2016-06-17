@@ -47,3 +47,19 @@ fn run(cli: Cli) -> kk::Result<ExitCode> {
         network,
         json,
         command,
+    } = cli;
+    let flags = Cli {
+        interval_ms,
+        max_frames,
+        label,
+        network,
+        json,
+        command: Command::Help, // unused placeholder; only flags are read
+    };
+    match command {
+        Command::Help => {
+            print!("{}", args::USAGE);
+            Ok(ExitCode::SUCCESS)
+        }
+        Command::Version => {
+            println!("kernelkite {}", env!("CARGO_PKG_VERSION"));
