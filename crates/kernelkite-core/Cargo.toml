@@ -1,2 +1,4 @@
 [package]
 name = "kernelkite-core"
+version.workspace = true
+edition.workspace = true
