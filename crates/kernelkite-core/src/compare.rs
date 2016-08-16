@@ -10,3 +10,15 @@ use serde::{Deserialize, Serialize};
 
 /// Derived aggregate metrics for one bundle.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct Summary {
+    pub label: String,
+    pub backend: String,
+    /// Wall-clock span of the timeline in milliseconds.
+    pub duration_ms: u64,
+    /// Number of frames captured.
+    pub frames: usize,
+    /// Distinct processes observed over the whole timeline.
+    pub distinct_pids: usize,
+    /// Total CPU seconds (user + system) consumed across all processes,
+    /// measured as the summed increase in CPU ticks from first to last time
+    /// each pid was seen, divided by the host tick rate.
