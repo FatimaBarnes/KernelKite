@@ -9,3 +9,6 @@ pub enum Error {
     Io(std::io::Error),
     /// JSON (de)serialization failure.
     Json(serde_json::Error),
+    /// A `/proc` entry could not be parsed into the expected shape.
+    Parse { path: String, reason: String },
+    /// A requested backend exists in the type system but is not implemented
