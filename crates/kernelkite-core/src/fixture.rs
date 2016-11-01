@@ -4,3 +4,10 @@
 //! it was recorded. Replaying a fixture yields exactly the recorded frames in
 //! order, which makes the profiler testable and reproducible on any OS —
 //! including Windows, where `/proc` does not exist.
+
+use crate::error::{Error, Result};
+use crate::model::{Backend, Frame};
+use crate::sampler::{HostInfo, Sampler};
+use serde::{Deserialize, Serialize};
+
+/// On-disk fixture format.
