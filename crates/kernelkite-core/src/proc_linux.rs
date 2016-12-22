@@ -26,3 +26,32 @@ pub enum PidFilter {
     Set(Vec<i32>),
 }
 
+/// Reads `/proc` on each `sample` call.
+pub struct ProcSampler {
+    filter: PidFilter,
+    with_network: bool,
+    host: HostInfo,
+    root: std::path::PathBuf,
+}
+
+impl ProcSampler {
+    /// Create a sampler rooted at the real `/proc`.
+    pub fn new(filter: PidFilter, with_network: bool) -> Self {
+        Self::rooted(filter, with_network, "/proc")
+    }
+
+    /// Create a sampler rooted at an arbitrary directory. Used by tests to
+    /// point the parser at a synthetic procfs tree.
+    pub fn rooted(
+        filter: PidFilter,
+        with_network: bool,
+        root: impl Into<std::path::PathBuf>,
+    ) -> Self {
+        ProcSampler {
+            filter,
+            with_network,
+            host: detect_host_info(),
+            root: root.into(),
+        }
+    }
+
