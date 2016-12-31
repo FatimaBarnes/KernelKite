@@ -55,3 +55,32 @@ impl ProcSampler {
         }
     }
 
+    fn list_pids(&self) -> Result<Vec<i32>> {
+        let mut pids = Vec::new();
+        for entry in std::fs::read_dir(&self.root)? {
+            let entry = entry?;
+            if let Some(name) = entry.file_name().to_str() {
+                if let Ok(pid) = name.parse::<i32>() {
+                    pids.push(pid);
+                }
+            }
+        }
+        pids.sort_unstable();
+        Ok(pids)
+    }
+
+    fn selected_pids(&self) -> Result<Vec<i32>> {
+        let all = self.list_pids()?;
+        match &self.filter {
+            PidFilter::All => Ok(all),
+            PidFilter::Set(set) => Ok(all.into_iter().filter(|p| set.contains(p)).collect()),
+            PidFilter::Subtree(root) => {
+                // Build ppid map for all visible pids, then collect descendants.
+                let mut ppid_of = std::collections::BTreeMap::new();
+                for pid in &all {
+                    if let Ok(s) = self.read_stat(*pid) {
+                        ppid_of.insert(*pid, s.ppid);
+                    }
+                }
+                let mut keep = std::collections::BTreeSet::new();
+                keep.insert(*root);
