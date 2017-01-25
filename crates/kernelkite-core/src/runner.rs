@@ -27,3 +27,18 @@ pub struct CaptureOptions {
 }
 
 impl Default for CaptureOptions {
+    fn default() -> Self {
+        CaptureOptions {
+            label: "capture".into(),
+            interval_ms: 100,
+            max_frames: 100,
+            record_wall_clock: true,
+        }
+    }
+}
+
+fn now_unix_secs() -> Option<u64> {
+    std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .ok()
+        .map(|d| d.as_secs())
