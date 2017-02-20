@@ -6,3 +6,7 @@
 //! * [`crate::proc_linux::ProcSampler`] — reads `/proc` on Linux (implemented).
 //! * [`crate::fixture::FixtureSampler`] — replays recorded frames on any OS
 //!   (implemented, deterministic).
+//! * [`crate::ebpf::EbpfSampler`] — a stub for a FUTURE eBPF backend. It never
+//!   fabricates data: every call returns [`Error::Unsupported`].
+
+use crate::error::Result;
