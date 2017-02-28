@@ -10,3 +10,7 @@
 //!   fabricates data: every call returns [`Error::Unsupported`].
 
 use crate::error::Result;
+use crate::model::{Backend, Frame};
+
+/// Host constants needed to interpret raw counters.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
