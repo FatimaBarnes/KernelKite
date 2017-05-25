@@ -5,3 +5,10 @@
     kernelkite samples the subtree from /proc on a fixed interval, collecting CPU, RSS and IO
     counters into ordered frames, then writes a deterministic bundle that can be summarized,
     diffed, and rendered. Flat two-color palette, no remote assets.</desc>
+
+  <rect x="0" y="0" width="880" height="300" fill="#0f1720"/>
+
+  <!-- interval ruler: the fixed sampling cadence -->
+  <g stroke="#3d4c5e" stroke-width="1">
+    <line x1="60" y1="70" x2="820" y2="70"/>
+    <line x1="120" y1="64" x2="120" y2="76"/>
