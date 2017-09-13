@@ -19,3 +19,24 @@ The design goal is narrow on purpose: measure what your machine actually did dur
 - Reconstruct the observed parent/child process tree (`tree`).
 - Emit a viewer document and render a self-contained timeline (`viewer` plus the TypeScript renderer).
 
+## How a capture flows
+
+The launched command forks a subtree. On every interval kernelkite snapshots each in-scope process into a frame. A bundle is the ordered list of frames plus the host constants used to record them. Derived metrics are computed from counter deltas at analysis time, never baked into the capture.
+
+Because a fixture records its own timestamps and omits wall-clock time, the same fixture always produces the same bytes. The entire `samples/` directory is generated from the shipped fixtures, and CI fails if it drifts.
+
+## Backends
+
+| Backend   | Status          | Platform   | Behavior                                            |
+|-----------|-----------------|------------|-----------------------------------------------------|
+| `proc`    | implemented     | Linux only | Samples `/proc` on every tick.                      |
+| `fixture` | implemented     | any OS     | Replays a recorded timeline, deterministically.     |
+| `ebpf`    | stub, not built | none       | Reserved. Returns `Error::Unsupported`, never fakes data. |
+
+The `ebpf` type exists so the enum, CLI, and roadmap describe the intended shape honestly. It loads no BPF program and every call returns an error. See [`crates/kernelkite-core/src/ebpf.rs`](crates/kernelkite-core/src/ebpf.rs).
+
+The `proc` backend is Linux-only, so the crate uses `cfg` guards to keep compiling on Windows and macOS, where the sampler becomes a compile-time shim that reports it needs Linux. On those hosts you use `fixture` replay to develop, demo, and test the whole tool.
+
+## Install and build
+
+Requirements: a stable Rust toolchain (1.74+) and, for the viewer, Node 18+.
