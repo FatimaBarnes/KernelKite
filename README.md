@@ -40,3 +40,24 @@ The `proc` backend is Linux-only, so the crate uses `cfg` guards to keep compili
 ## Install and build
 
 Requirements: a stable Rust toolchain (1.74+) and, for the viewer, Node 18+.
+
+```bash
+git clone https://github.com/kernelkite/kernelkite
+cd kernelkite
+
+cargo build --release          # -> target/release/kernelkite
+cd viewer && npm install && npm run build && cd ..
+```
+
+The Makefile wraps the common targets:
+
+```bash
+make build      # release build of the workspace
+make test       # full Rust test suite
+make viewer     # build + test the TS viewer
+make ci         # everything CI runs
+make demo       # summary + comparison from the shipped samples
+```
+
+## Usage walkthrough
+
