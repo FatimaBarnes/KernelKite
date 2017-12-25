@@ -1,1 +1,3 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="900" height="244" viewBox="0 0 900 244" role="img" aria-label="kernelkite CPU timeline for before">
+<rect x="0" y="0" width="900" height="244" fill="#0d1117"/>
+<text x="16" y="24" fill="#e6edf3" font-family="monospace" font-size="16" font-weight="bold">kernelkite: before [fixture]</text>
