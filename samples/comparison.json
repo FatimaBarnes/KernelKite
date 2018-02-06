@@ -2,3 +2,7 @@
   "before": {
     "label": "before",
     "backend": "fixture",
+    "duration_ms": 1500,
+    "frames": 7,
+    "distinct_pids": 4,
+    "cpu_seconds": 2.79,
