@@ -7,3 +7,7 @@ const valid = {
   backend: "fixture",
   interval_ms: 250,
   t_ms: [0, 250, 500],
+  series: [
+    {
+      pid: 5000,
+      ppid: 4200,
