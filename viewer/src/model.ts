@@ -5,3 +5,10 @@
  */
 
 export interface ViewerSeries {
+  pid: number;
+  ppid: number;
+  comm: string;
+  /** CPU utilisation percent per frame (can exceed 100 on multi-core). */
+  cpu_pct: number[];
+  /** Resident memory per frame in bytes. */
+  rss_bytes: number[];
