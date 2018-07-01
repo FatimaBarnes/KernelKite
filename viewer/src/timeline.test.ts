@@ -7,3 +7,8 @@ const doc = parseViewerDocument({
   label: "after",
   backend: "fixture",
   interval_ms: 250,
+  t_ms: [0, 250, 500, 750],
+  series: [
+    {
+      pid: 6000,
+      ppid: 4200,
