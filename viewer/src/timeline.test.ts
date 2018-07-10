@@ -12,3 +12,8 @@ const doc = parseViewerDocument({
     {
       pid: 6000,
       ppid: 4200,
+      comm: "cargo",
+      cpu_pct: [0, 20, 16, 12],
+      rss_bytes: [12582912, 18874368, 20971520, 22020096],
+    },
+    {
