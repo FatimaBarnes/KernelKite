@@ -12,3 +12,7 @@ pub enum Error {
     /// A `/proc` entry could not be parsed into the expected shape.
     Parse { path: String, reason: String },
     /// A requested backend exists in the type system but is not implemented
+    /// on this build/platform (e.g. the eBPF backend).
+    Unsupported(String),
+    /// The bundle on disk uses a schema version this build cannot read.
+    SchemaMismatch { found: u32, expected: u32 },
