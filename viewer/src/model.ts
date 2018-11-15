@@ -12,3 +12,10 @@ export interface ViewerSeries {
   cpu_pct: number[];
   /** Resident memory per frame in bytes. */
   rss_bytes: number[];
+}
+
+export interface ViewerDocument {
+  label: string;
+  backend: string;
+  interval_ms: number;
+  /** Milliseconds since capture start, one entry per frame. */
