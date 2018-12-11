@@ -19,3 +19,10 @@ export interface ViewerDocument {
   backend: string;
   interval_ms: number;
   /** Milliseconds since capture start, one entry per frame. */
+  t_ms: number[];
+  series: ViewerSeries[];
+}
+
+function isNumberArray(x: unknown): x is number[] {
+  return Array.isArray(x) && x.every((n) => typeof n === "number" && Number.isFinite(n));
+}
