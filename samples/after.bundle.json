@@ -22,3 +22,16 @@
           "vsize_bytes": 419430400,
           "threads": 4,
           "read_bytes": 0,
+          "write_bytes": 0,
+          "open_fds": 12
+        }
+      ]
+    },
+    {
+      "t_ms": 250,
+      "processes": [
+        {
+          "pid": 6000,
+          "ppid": 4200,
+          "comm": "cargo",
+          "utime_ticks": 7,
