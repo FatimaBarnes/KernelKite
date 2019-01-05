@@ -12,3 +12,18 @@ export interface TimelineOptions {
   labelWidth: number;
   padding: number;
 }
+
+export const DEFAULT_OPTIONS: TimelineOptions = {
+  width: 900,
+  laneHeight: 44,
+  labelWidth: 150,
+  padding: 16,
+};
+
+/** A stable, colour-blind-friendly palette cycled per series. */
+const PALETTE = [
+  "#4c78a8",
+  "#f58518",
+  "#54a24b",
+  "#e45756",
+  "#72b7b2",
