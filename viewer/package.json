@@ -1,2 +1,5 @@
 {
   "name": "@kernelkite/viewer",
+  "version": "0.1.0",
+  "description": "TypeScript timeline viewer for kernelkite profile bundles",
+  "license": "MIT",
