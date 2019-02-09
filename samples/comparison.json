@@ -6,3 +6,7 @@
     "frames": 7,
     "distinct_pids": 4,
     "cpu_seconds": 2.79,
+    "peak_rss_bytes": 988807168,
+    "read_bytes": 3506176,
+    "write_bytes": 2691072,
+    "net_rx_bytes": null,
