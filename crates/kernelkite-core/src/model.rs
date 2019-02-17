@@ -12,3 +12,18 @@ pub const BUNDLE_SCHEMA_VERSION: u32 = 1;
 
 /// Which sampling backend produced a bundle.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum Backend {
+    /// Linux `/proc` sampler (implemented).
+    Proc,
+    /// Deterministic fixture replay (cross-platform, implemented).
+    Fixture,
+    /// eBPF backend — reserved for the future, not implemented.
+    Ebpf,
+}
+
+impl Backend {
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            Backend::Proc => "proc",
+            Backend::Fixture => "fixture",
