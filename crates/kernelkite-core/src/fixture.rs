@@ -18,3 +18,10 @@ pub struct Fixture {
     /// Page size in bytes on the recording host.
     pub page_size_bytes: u64,
     /// Recorded frames, expected to be in ascending `t_ms` order.
+    pub frames: Vec<Frame>,
+}
+
+impl Fixture {
+    /// Load a fixture from a JSON file.
+    pub fn load(path: impl AsRef<std::path::Path>) -> Result<Self> {
+        let raw = std::fs::read_to_string(path)?;
