@@ -83,3 +83,20 @@ impl Cli {
                         it.next()
                             .ok_or_else(|| "--label requires a value".to_string())?,
                     );
+                }
+                "--network" => {
+                    it.next();
+                    network = true;
+                }
+                "--json" => {
+                    it.next();
+                    json = true;
+                }
+                "-h" | "--help" => {
+                    return Ok(Cli::simple(Command::Help));
+                }
+                "-V" | "--version" => {
+                    return Ok(Cli::simple(Command::Version));
+                }
+                _ => {
+                    subcommand = it.next();
