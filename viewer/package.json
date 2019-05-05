@@ -3,3 +3,5 @@
   "version": "0.1.0",
   "description": "TypeScript timeline viewer for kernelkite profile bundles",
   "license": "MIT",
+  "type": "module",
+  "main": "dist/index.js",
