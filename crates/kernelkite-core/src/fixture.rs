@@ -25,3 +25,10 @@ impl Fixture {
     /// Load a fixture from a JSON file.
     pub fn load(path: impl AsRef<std::path::Path>) -> Result<Self> {
         let raw = std::fs::read_to_string(path)?;
+        Self::from_json(&raw)
+    }
+
+    /// Parse a fixture from a JSON string, validating frame ordering.
+    pub fn from_json(raw: &str) -> Result<Self> {
+        let fx: Fixture = serde_json::from_str(raw)?;
+        let mut last = None;
