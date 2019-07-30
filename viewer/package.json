@@ -8,3 +8,5 @@
   "types": "dist/index.d.ts",
   "bin": {
     "kernelkite-render": "dist/cli.js"
+  },
+  "scripts": {
