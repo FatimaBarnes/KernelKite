@@ -125,3 +125,24 @@ kernelkite tree before.bundle.json
 ```
 
 ```text
+Process tree (4 pids)
+5000 cargo
+  5010 rustc
+    5020 ld
+  5011 rustc
+```
+
+Render a timeline. Export a viewer document, then produce a self-contained SVG or HTML page:
+
+```bash
+kernelkite viewer before.bundle.json before.viewer.json
+node viewer/dist/cli.js before.viewer.json before.timeline.html
+```
+
+The renderer also imports as a library:
+
+```ts
+import { parseViewerDocument, renderTimelineSvg } from "@kernelkite/viewer";
+
+const doc = parseViewerDocument(JSON.parse(await readFile("before.viewer.json", "utf8")));
+const svg = renderTimelineSvg(doc, { width: 1000 });
