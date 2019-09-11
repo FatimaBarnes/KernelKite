@@ -10,3 +10,6 @@
     "kernelkite-render": "dist/cli.js"
   },
   "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node --test dist/model.test.js dist/timeline.test.js",
