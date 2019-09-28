@@ -113,3 +113,32 @@ impl ProcSampler {
         let raw = std::fs::read_to_string(&path)?;
         let mut it = raw.split_whitespace();
         let vsize_pages: u64 =
+            it.next()
+                .and_then(|v| v.parse().ok())
+                .ok_or_else(|| Error::Parse {
+                    path: path.display().to_string(),
+                    reason: "missing vsize field".into(),
+                })?;
+        let rss_pages: u64 =
+            it.next()
+                .and_then(|v| v.parse().ok())
+                .ok_or_else(|| Error::Parse {
+                    path: path.display().to_string(),
+                    reason: "missing rss field".into(),
+                })?;
+        Ok((vsize_pages, rss_pages))
+    }
+
+    fn read_io(&self, pid: i32) -> Option<(u64, u64)> {
+        let path = self.root.join(pid.to_string()).join("io");
+        let raw = std::fs::read_to_string(path).ok()?;
+        parse_io(&raw)
+    }
+
+    fn read_fd_count(&self, pid: i32) -> Option<u32> {
+        let path = self.root.join(pid.to_string()).join("fd");
+        let count = std::fs::read_dir(path).ok()?.count();
+        Some(count as u32)
+    }
+
+    fn read_network(&self) -> Option<NetworkSummary> {
