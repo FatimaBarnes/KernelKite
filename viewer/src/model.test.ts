@@ -16,3 +16,8 @@ const valid = {
       rss_bytes: [12582912, 20971520, 22020096],
     },
   ],
+};
+
+test("parses a well-formed viewer document", () => {
+  const doc = parseViewerDocument(valid);
+  assert.equal(doc.label, "before");
