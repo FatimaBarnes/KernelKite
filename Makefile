@@ -21,3 +21,9 @@ build: ## Build the Rust workspace (release)
 .PHONY: test
 test: ## Run all Rust tests
 	$(CARGO) test --workspace
+
+.PHONY: fmt
+fmt: ## Format Rust sources
+	$(CARGO) fmt --all
+
+.PHONY: fmt-check
