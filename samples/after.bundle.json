@@ -35,3 +35,15 @@
           "ppid": 4200,
           "comm": "cargo",
           "utime_ticks": 7,
+          "stime_ticks": 3,
+          "rss_bytes": 18874368,
+          "vsize_bytes": 524288000,
+          "threads": 6,
+          "read_bytes": 65536,
+          "write_bytes": 4096,
+          "open_fds": 16
+        },
+        {
+          "pid": 6010,
+          "ppid": 6000,
+          "comm": "rustc",
