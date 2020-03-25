@@ -41,3 +41,24 @@ pub fn summary_text(s: &Summary) -> String {
     }
     match (s.net_rx_bytes, s.net_tx_bytes) {
         (Some(rx), Some(tx)) => {
+            out.push_str(&format!("  net rx        : {}\n", human_bytes(rx)));
+            out.push_str(&format!("  net tx        : {}\n", human_bytes(tx)));
+        }
+        _ => out.push_str("  network       : (not sampled)\n"),
+    }
+    out
+}
+
+/// Render a [`Comparison`] as a before/after table.
+pub fn comparison_text(c: &Comparison) -> String {
+    let mut out = String::new();
+    out.push_str(&format!(
+        "Comparison: {} -> {}\n\n",
+        c.before.label, c.after.label
+    ));
+    out.push_str(&format!(
+        "{:<16} {:>16} {:>16} {:>14} {:>10}\n",
+        "metric", "before", "after", "change", "pct"
+    ));
+    out.push_str(&"-".repeat(76));
+    out.push('\n');
