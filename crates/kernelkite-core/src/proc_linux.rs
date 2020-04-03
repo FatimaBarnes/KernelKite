@@ -142,3 +142,32 @@ impl ProcSampler {
     }
 
     fn read_network(&self) -> Option<NetworkSummary> {
+        let path = self.root.join("net").join("dev");
+        let raw = std::fs::read_to_string(path).ok()?;
+        parse_net_dev(&raw)
+    }
+}
+
+impl Sampler for ProcSampler {
+    fn backend(&self) -> Backend {
+        Backend::Proc
+    }
+
+    fn host_info(&self) -> HostInfo {
+        self.host
+    }
+
+    fn sample(&mut self, t_ms: u64) -> Result<Option<Frame>> {
+        let mut frame = Frame::new(t_ms);
+        for pid in self.selected_pids()? {
+            // A process may vanish between listing and reading; skip races.
+            let stat = match self.read_stat(pid) {
+                Ok(s) => s,
+                Err(Error::Io(_)) => continue,
+                Err(e) => return Err(e),
+            };
+            let (vsize_pages, rss_pages) = match self.read_statm_rss_pages(pid) {
+                Ok(v) => v,
+                Err(Error::Io(_)) => continue,
+                Err(e) => return Err(e),
+            };
