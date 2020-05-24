@@ -26,3 +26,17 @@
 //! [`error::Error::Unsupported`], so the whole crate builds on Windows and
 //! macOS while remaining honest about what it can observe there.
 
+pub mod bundle;
+pub mod compare;
+pub mod ebpf;
+pub mod error;
+pub mod fixture;
+pub mod model;
+pub mod runner;
+pub mod sampler;
+
+#[cfg(target_os = "linux")]
+pub mod proc_linux;
+
+/// Non-Linux shim for the `/proc` backend so the crate compiles everywhere.
+/// The real implementation lives in the Linux-only module of the same name.
