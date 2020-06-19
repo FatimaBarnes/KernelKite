@@ -70,3 +70,18 @@ fn schema_mismatch_is_rejected() {
         }
         other => panic!("expected SchemaMismatch, got {other:?}"),
     }
+}
+
+#[test]
+fn summarize_computes_cpu_and_io_deltas() {
+    let b = make_bundle("run", 200, 4096 * 100);
+    let s = kk::summarize(&b);
+    // pid 1000 cpu 0->200 ticks = 200; pid 1001 0->100 = 100; total 300 ticks.
+    // at 100 ticks/sec that is 3.0 cpu seconds.
+    assert!((s.cpu_seconds - 3.0).abs() < 1e-9, "cpu={}", s.cpu_seconds);
+    assert_eq!(s.distinct_pids, 2);
+    assert_eq!(s.frames, 3);
+    assert_eq!(s.duration_ms, 200);
+    // read_bytes = cpu*10 delta: pid1000 (2000-0)+ pid1001 (1000-0) = 3000.
+    assert_eq!(s.read_bytes, Some(3000));
+    assert_eq!(s.write_bytes, Some(600));
