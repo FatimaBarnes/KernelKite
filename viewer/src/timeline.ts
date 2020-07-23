@@ -27,3 +27,17 @@ const PALETTE = [
   "#54a24b",
   "#e45756",
   "#72b7b2",
+  "#b279a2",
+  "#ff9da6",
+  "#9d755d",
+];
+
+function escapeXml(s: string): string {
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+/** Build an SVG polyline path for one series' CPU% within a lane. */
