@@ -19,3 +19,7 @@ pub struct HostInfo {
     pub clock_ticks_per_sec: u64,
     /// Memory page size in bytes.
     pub page_size_bytes: u64,
+}
+
+impl Default for HostInfo {
+    fn default() -> Self {
