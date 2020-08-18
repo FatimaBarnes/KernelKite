@@ -31,3 +31,7 @@ impl fmt::Display for Error {
             Error::Unsupported(what) => write!(f, "unsupported: {what}"),
             Error::SchemaMismatch { found, expected } => write!(
                 f,
+                "bundle schema version {found} is not supported (this build expects {expected})"
+            ),
+            Error::Invalid(m) => write!(f, "invalid input: {m}"),
+        }
