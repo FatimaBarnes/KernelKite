@@ -35,3 +35,6 @@ impl fmt::Display for Error {
             ),
             Error::Invalid(m) => write!(f, "invalid input: {m}"),
         }
+    }
+}
+
