@@ -171,3 +171,32 @@ impl Sampler for ProcSampler {
                 Err(Error::Io(_)) => continue,
                 Err(e) => return Err(e),
             };
+            let io = self.read_io(pid);
+            let open_fds = self.read_fd_count(pid);
+            frame.insert(ProcessSample {
+                pid,
+                ppid: stat.ppid,
+                comm: stat.comm,
+                utime_ticks: stat.utime,
+                stime_ticks: stat.stime,
+                rss_bytes: rss_pages.saturating_mul(self.host.page_size_bytes),
+                vsize_bytes: vsize_pages.saturating_mul(self.host.page_size_bytes),
+                threads: stat.num_threads.max(0) as u32,
+                read_bytes: io.map(|(r, _)| r),
+                write_bytes: io.map(|(_, w)| w),
+                open_fds,
+            });
+        }
+        if self.with_network {
+            frame.network = self.read_network();
+        }
+        Ok(Some(frame))
+    }
+}
+
+/// Fields extracted from `/proc/<pid>/stat`.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct StatFields {
+    pub ppid: i32,
+    pub comm: String,
+    pub utime: u64,
