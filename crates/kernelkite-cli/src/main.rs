@@ -112,3 +112,20 @@ fn cmd_replay(cli: &Cli, fixture: &str, out: &str) -> kk::Result<ExitCode> {
     let sampler = kk::FixtureSampler::new(fx);
     let mut opts = capture_opts(cli, "replay");
     // Fixture replay must be deterministic: drop wall-clock, allow all frames.
+    opts.record_wall_clock = false;
+    opts.max_frames = opts.max_frames.max(usize::MAX / 2);
+    let bundle = kk::capture(sampler, &opts)?;
+    kk::save(&bundle, out)?;
+    eprintln!("replayed {} frame(s) -> {}", bundle.frames.len(), out);
+    Ok(ExitCode::SUCCESS)
+}
+
+fn cmd_summary(cli: &Cli, bundle_path: &str) -> kk::Result<ExitCode> {
+    let bundle = kk::load(bundle_path)?;
+    let summary = kk::summarize(&bundle);
+    if cli.json {
+        println!("{}", serde_json::to_string_pretty(&summary)?);
+    } else {
+        print!("{}", render::summary_text(&summary));
+    }
+    Ok(ExitCode::SUCCESS)
