@@ -39,3 +39,9 @@ impl Fixture {
                         "fixture frames must be non-decreasing in t_ms (saw {} after {})",
                         f.t_ms, prev
                     )));
+                }
+            }
+            last = Some(f.t_ms);
+        }
+        Ok(fx)
+    }
