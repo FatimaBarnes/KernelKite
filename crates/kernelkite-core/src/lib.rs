@@ -40,3 +40,18 @@ pub mod proc_linux;
 
 /// Non-Linux shim for the `/proc` backend so the crate compiles everywhere.
 /// The real implementation lives in the Linux-only module of the same name.
+#[cfg(not(target_os = "linux"))]
+pub mod proc_linux {
+    use crate::error::{Error, Result};
+    use crate::model::{Backend, Frame};
+    use crate::sampler::{HostInfo, Sampler};
+
+    /// Mirrors the Linux filter type so callers compile unchanged.
+    #[derive(Debug, Clone)]
+    pub enum PidFilter {
+        All,
+        Subtree(i32),
+        Set(Vec<i32>),
+    }
+
+    /// Non-Linux stand-in for the `/proc` sampler. Construction succeeds so
