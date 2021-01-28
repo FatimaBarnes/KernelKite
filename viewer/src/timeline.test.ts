@@ -22,3 +22,7 @@ const doc = parseViewerDocument({
       comm: "rustc",
       cpu_pct: [0, 80, 120, 40],
       rss_bytes: [0, 75497472, 234881024, 318767104],
+    },
+  ],
+});
+
