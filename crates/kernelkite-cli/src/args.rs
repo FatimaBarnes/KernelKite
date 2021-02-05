@@ -100,3 +100,20 @@ impl Cli {
                 }
                 _ => {
                     subcommand = it.next();
+                    break;
+                }
+            }
+        }
+
+        let sub = subcommand.ok_or_else(|| "no command given".to_string())?;
+        let rest: Vec<String> = it.collect();
+        let command = parse_command(&sub, rest)?;
+
+        Ok(Cli {
+            interval_ms,
+            max_frames,
+            label,
+            network,
+            json,
+            command,
+        })
