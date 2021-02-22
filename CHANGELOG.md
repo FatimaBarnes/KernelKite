@@ -38,3 +38,11 @@ Initial release: a working, honest local developer-loop process profiler.
     backend is a compile-time shim that reports `Unsupported`.
 - **CLI (`kernelkite`)**
   - Subcommands: `run`, `replay`, `summary`, `compare`, `tree`, `viewer`,
+    `help`, `version`.
+  - Global flags: `--interval-ms`, `--max-frames`, `--label`, `--network`,
+    `--json`.
+  - Dependency-light hand-rolled argument parser.
+  - Human-readable and `--json` output for `summary` and `compare`.
+- **TypeScript timeline viewer (`@kernelkite/viewer`)**
+  - Strict, defensively-validated viewer-document parser.
+  - Framework-free inline-SVG timeline renderer (per-process CPU sparklines +
