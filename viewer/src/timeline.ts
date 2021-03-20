@@ -41,3 +41,18 @@ function escapeXml(s: string): string {
 }
 
 /** Build an SVG polyline path for one series' CPU% within a lane. */
+function cpuPolyline(
+  series: ViewerSeries,
+  plotX: number,
+  plotWidth: number,
+  laneTop: number,
+  laneHeight: number,
+  maxCpu: number,
+): string {
+  const n = series.cpu_pct.length;
+  if (n === 0) return "";
+  const denom = maxCpu <= 0 ? 1 : maxCpu;
+  const points = series.cpu_pct.map((v, i) => {
+    const x = plotX + (n === 1 ? 0 : (i / (n - 1)) * plotWidth);
+    const norm = Math.min(v / denom, 1);
+    const y = laneTop + laneHeight - 4 - norm * (laneHeight - 8);
