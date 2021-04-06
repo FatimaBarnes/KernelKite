@@ -56,3 +56,17 @@ function cpuPolyline(
     const x = plotX + (n === 1 ? 0 : (i / (n - 1)) * plotWidth);
     const norm = Math.min(v / denom, 1);
     const y = laneTop + laneHeight - 4 - norm * (laneHeight - 8);
+    return `${x.toFixed(1)},${y.toFixed(1)}`;
+  });
+  return points.join(" ");
+}
+
+/**
+ * Render a full timeline SVG string. `maxCpu` normalises every lane to the same
+ * scale so lanes are visually comparable; it defaults to the global maximum.
+ */
+export function renderTimelineSvg(
+  doc: ViewerDocument,
+  options: Partial<TimelineOptions> = {},
+): string {
+  const opt = { ...DEFAULT_OPTIONS, ...options };
