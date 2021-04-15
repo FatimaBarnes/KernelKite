@@ -85,3 +85,18 @@ fn summarize_computes_cpu_and_io_deltas() {
     // read_bytes = cpu*10 delta: pid1000 (2000-0)+ pid1001 (1000-0) = 3000.
     assert_eq!(s.read_bytes, Some(3000));
     assert_eq!(s.write_bytes, Some(600));
+}
+
+#[test]
+fn compare_reports_expected_direction() {
+    let before = make_bundle("before", 400, 4096 * 200);
+    let after = make_bundle("after", 200, 4096 * 100);
+    let cmp = kk::compare(&before, &after);
+    let cpu = cmp
+        .deltas
+        .iter()
+        .find(|d| d.metric == "cpu_seconds")
+        .unwrap();
+    assert!(cpu.after < cpu.before, "after should be faster");
+    assert!(cpu.abs_change < 0.0);
+    assert!(cpu.pct_change.unwrap() < 0.0);
