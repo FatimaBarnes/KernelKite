@@ -6,3 +6,5 @@
     "lib": ["ES2020", "DOM"],
     "outDir": "dist",
     "rootDir": "src",
+    "declaration": true,
+    "strict": true,
