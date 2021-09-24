@@ -46,3 +46,11 @@ Initial release: a working, honest local developer-loop process profiler.
 - **TypeScript timeline viewer (`@kernelkite/viewer`)**
   - Strict, defensively-validated viewer-document parser.
   - Framework-free inline-SVG timeline renderer (per-process CPU sparklines +
+    peak-memory annotations) and a standalone-HTML wrapper with no remote assets.
+  - Node CLI `kernelkite-render` to turn a viewer document into SVG/HTML.
+- **Fixtures & samples**
+  - `fixtures/cargo-build-before.json`, `fixtures/cargo-build-after.json`.
+  - Generated `samples/` bundles, comparison, viewer documents and a rendered
+    timeline (reproducible via `make samples`).
+- **Docs & assets**
+  - `README.md` (kernel-city/kite themed).
