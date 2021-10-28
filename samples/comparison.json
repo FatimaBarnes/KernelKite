@@ -23,3 +23,7 @@
     "read_bytes": 1507328,
     "write_bytes": 1196032,
     "net_rx_bytes": null,
+    "net_tx_bytes": null
+  },
+  "deltas": [
+    {
