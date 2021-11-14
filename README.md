@@ -188,3 +188,24 @@ kernelkite/
 ## CLI reference
 
 ```
+kernelkite [GLOBAL FLAGS] <COMMAND> [ARGS]
+
+COMMANDS
+  run <bundle.json> -- <cmd> [args...]   Live-profile a command via /proc (Linux).
+  replay <fixture.json> <bundle.json>    Deterministically replay a fixture.
+  summary <bundle.json>                  Print derived metrics for a bundle.
+  compare <before.json> <after.json>     Before/after comparison report.
+  tree <bundle.json>                     Print the observed process tree.
+  viewer <bundle.json> [out.json]        Emit timeline JSON for the TS viewer.
+  help | version
+
+GLOBAL FLAGS
+  --interval-ms <N>   Sampling interval in ms (default 100).
+  --max-frames <N>    Max frames to capture (default 100).
+  --label <TEXT>      Label stored in the bundle.
+  --network           Include a host-wide network summary (Linux /proc).
+  --json              Machine-readable output for summary / compare.
+```
+
+Both `summary` and `compare` accept `--json` for piping:
+
