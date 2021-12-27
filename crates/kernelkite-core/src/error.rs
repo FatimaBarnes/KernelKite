@@ -46,3 +46,6 @@ impl std::error::Error for Error {
             _ => None,
         }
     }
+}
+
+impl From<std::io::Error> for Error {
