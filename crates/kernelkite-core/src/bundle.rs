@@ -9,3 +9,9 @@ pub fn to_json(bundle: &ProfileBundle) -> Result<String> {
     Ok(serde_json::to_string_pretty(bundle)?)
 }
 
+/// Parse a bundle from JSON, validating the schema version.
+pub fn from_json(raw: &str) -> Result<ProfileBundle> {
+    let bundle: ProfileBundle = serde_json::from_str(raw)?;
+    if bundle.meta.schema_version != BUNDLE_SCHEMA_VERSION {
+        return Err(Error::SchemaMismatch {
+            found: bundle.meta.schema_version,
