@@ -70,3 +70,15 @@ pub fn summarize(bundle: &ProfileBundle) -> Summary {
             if let (Some(r), Some(w)) = (s.read_bytes, s.write_bytes) {
                 t.saw_io = true;
                 if t.first_read.is_none() {
+                    t.first_read = Some(r);
+                }
+                t.last_read = r;
+                if t.first_write.is_none() {
+                    t.first_write = Some(w);
+                }
+                t.last_write = w;
+            }
+        }
+        peak_rss = peak_rss.max(frame_rss);
+        if let Some(n) = &frame.network {
+            if first_net.is_none() {
