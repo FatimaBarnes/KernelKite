@@ -56,3 +56,18 @@ pub struct ProcessSample {
     /// Number of threads.
     pub threads: u32,
     /// Cumulative bytes read (storage layer), if available.
+    pub read_bytes: Option<u64>,
+    /// Cumulative bytes written (storage layer), if available.
+    pub write_bytes: Option<u64>,
+    /// Number of open file descriptors, if available.
+    pub open_fds: Option<u32>,
+}
+
+/// One timeline frame: every process observed at a single instant.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct Frame {
+    /// Milliseconds since capture start.
+    pub t_ms: u64,
+    /// Samples keyed by pid for stable ordering and easy lookup.
+    #[serde(with = "pid_map")]
+    pub processes: BTreeMap<i32, ProcessSample>,
