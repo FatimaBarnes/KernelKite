@@ -31,3 +31,8 @@
       "before": 1500.0,
       "after": 1000.0,
       "abs_change": -500.0,
+      "pct_change": -33.33333333333333
+    },
+    {
+      "metric": "cpu_seconds",
+      "before": 2.79,
