@@ -8,3 +8,5 @@ authors.workspace = true
 repository.workspace = true
 description = "Core sampling, modeling and comparison engine for kernelkite"
 
+[dependencies]
+serde = { workspace = true }
