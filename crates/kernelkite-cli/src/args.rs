@@ -117,3 +117,20 @@ impl Cli {
             json,
             command,
         })
+    }
+
+    fn simple(command: Command) -> Cli {
+        Cli {
+            interval_ms: 100,
+            max_frames: 100,
+            label: None,
+            network: false,
+            json: false,
+            command,
+        }
+    }
+}
+
+fn parse_num<T: std::str::FromStr>(v: Option<String>, flag: &str) -> Result<T, String> {
+    v.ok_or_else(|| format!("{flag} requires a value"))?
+        .parse()
