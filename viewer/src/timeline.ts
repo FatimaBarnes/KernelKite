@@ -85,3 +85,18 @@ export function renderTimelineSvg(
   parts.push(
     `<svg xmlns="http://www.w3.org/2000/svg" width="${opt.width}" height="${height}" ` +
       `viewBox="0 0 ${opt.width} ${height}" role="img" ` +
+      `aria-label="kernelkite CPU timeline for ${escapeXml(doc.label)}">`,
+  );
+  parts.push(
+    `<rect x="0" y="0" width="${opt.width}" height="${height}" fill="#0d1117"/>`,
+  );
+  parts.push(
+    `<text x="${opt.padding}" y="24" fill="#e6edf3" font-family="monospace" ` +
+      `font-size="16" font-weight="bold">kernelkite — ${escapeXml(doc.label)} ` +
+      `[${escapeXml(doc.backend)}]</text>`,
+  );
+  const durMs = doc.t_ms.length > 0 ? doc.t_ms[doc.t_ms.length - 1] : 0;
+  parts.push(
+    `<text x="${opt.padding}" y="42" fill="#8b949e" font-family="monospace" ` +
+      `font-size="11">${doc.series.length} processes · ${doc.t_ms.length} frames · ` +
+      `${durMs} ms · interval ${doc.interval_ms} ms</text>`,
