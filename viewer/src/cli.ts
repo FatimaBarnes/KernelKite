@@ -39,3 +39,11 @@ function main(argv: string[]): number {
   try {
     doc = parseViewerDocument(JSON.parse(raw));
   } catch (e) {
+    process.stderr.write(`error: invalid viewer document: ${String(e)}\n`);
+    return 1;
+  }
+
+  const svg = renderTimelineSvg(doc);
+
+  if (!outPath) {
+    process.stdout.write(svg + "\n");
