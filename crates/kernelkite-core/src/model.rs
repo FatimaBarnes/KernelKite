@@ -71,3 +71,17 @@ pub struct Frame {
     /// Samples keyed by pid for stable ordering and easy lookup.
     #[serde(with = "pid_map")]
     pub processes: BTreeMap<i32, ProcessSample>,
+    /// Optional coarse network summary for this frame.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub network: Option<NetworkSummary>,
+}
+
+impl Frame {
+    pub fn new(t_ms: u64) -> Self {
+        Frame {
+            t_ms,
+            processes: BTreeMap::new(),
+            network: None,
+        }
+    }
+
