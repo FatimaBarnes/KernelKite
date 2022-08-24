@@ -33,3 +33,10 @@ function isNumberArray(x: unknown): x is number[] {
  * to the time axis — the same invariant the Rust exporter guarantees.
  */
 export function parseViewerDocument(input: unknown): ViewerDocument {
+  if (typeof input !== "object" || input === null) {
+    throw new Error("viewer document must be an object");
+  }
+  const doc = input as Record<string, unknown>;
+  if (typeof doc.label !== "string") throw new Error("missing string field: label");
+  if (typeof doc.backend !== "string") throw new Error("missing string field: backend");
+  if (typeof doc.interval_ms !== "number") throw new Error("missing number field: interval_ms");
