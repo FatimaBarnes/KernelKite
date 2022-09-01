@@ -35,3 +35,7 @@ test("rejects misaligned series arrays", () => {
 test("rejects non-object input", () => {
   assert.throws(() => parseViewerDocument(null), /must be an object/);
   assert.throws(() => parseViewerDocument(42), /must be an object/);
+});
+
+test("rejects missing fields", () => {
+  const bad: Record<string, unknown> = structuredClone(valid);
