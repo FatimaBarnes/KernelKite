@@ -62,3 +62,25 @@ pub fn comparison_text(c: &Comparison) -> String {
     ));
     out.push_str(&"-".repeat(76));
     out.push('\n');
+    for d in &c.deltas {
+        let pct = match d.pct_change {
+            Some(p) => format!("{p:+.1}%"),
+            None => "n/a".to_string(),
+        };
+        out.push_str(&format!(
+            "{:<16} {:>16.3} {:>16.3} {:>+14.3} {:>10}\n",
+            d.metric, d.before, d.after, d.abs_change, pct
+        ));
+    }
+    out
+}
+
+/// Render the observed process tree as an indented outline.
+pub fn tree_text(bundle: &ProfileBundle) -> String {
+    let tree = bundle.process_tree();
+    // Map pid -> comm from the latest observation for nice labels.
+    let mut comm: std::collections::BTreeMap<i32, String> = std::collections::BTreeMap::new();
+    for f in &bundle.frames {
+        for s in f.processes.values() {
+            comm.insert(s.pid, s.comm.clone());
+        }
