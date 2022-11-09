@@ -82,3 +82,15 @@ pub fn summarize(bundle: &ProfileBundle) -> Summary {
         peak_rss = peak_rss.max(frame_rss);
         if let Some(n) = &frame.network {
             if first_net.is_none() {
+                first_net = Some((n.rx_bytes, n.tx_bytes));
+            }
+            last_net = Some((n.rx_bytes, n.tx_bytes));
+        }
+    }
+
+    let mut cpu_ticks = 0u64;
+    let mut read_total = 0u64;
+    let mut write_total = 0u64;
+    let mut any_io = false;
+    for t in tracks.values() {
+        if let Some(first) = t.first_cpu {
