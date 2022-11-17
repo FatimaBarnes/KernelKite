@@ -56,3 +56,18 @@ fn base_meta(sampler: &dyn Sampler, opts: &CaptureOptions) -> CaptureMeta {
         interval_ms: opts.interval_ms,
         started_unix_secs: if opts.record_wall_clock {
             now_unix_secs()
+        } else {
+            None
+        },
+        host_os: std::env::consts::OS.to_string(),
+        exit_code: None,
+    }
+}
+
+/// Drive a sampler until it is exhausted, `max_frames` is reached, or (for
+/// non-fixture backends) `interval_ms * max_frames` has elapsed.
+///
+/// For fixture backends this replays every recorded frame with no sleeping,
+/// which keeps replay fast and deterministic.
+pub fn capture(mut sampler: impl Sampler, opts: &CaptureOptions) -> Result<ProfileBundle> {
+    let meta = base_meta(&sampler, opts);
