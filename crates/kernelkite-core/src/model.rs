@@ -100,3 +100,18 @@ pub struct NetworkSummary {
     /// Cumulative transmitted bytes across sampled interfaces.
     pub tx_bytes: u64,
     /// Interfaces that contributed to the summary.
+    pub interfaces: Vec<String>,
+}
+
+/// Metadata describing how a bundle was captured.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct CaptureMeta {
+    pub schema_version: u32,
+    pub backend: Backend,
+    /// Label supplied by the user, e.g. "before" / "after" / "cold-cache".
+    pub label: String,
+    /// The command that was profiled, if a live runner was used.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub command: Option<Vec<String>>,
+    /// Clock ticks per second on the capturing host (SC_CLK_TCK).
+    pub clock_ticks_per_sec: u64,
