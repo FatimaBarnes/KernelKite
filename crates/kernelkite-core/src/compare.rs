@@ -106,3 +106,15 @@ pub fn summarize(bundle: &ProfileBundle) -> Summary {
             }
         }
     }
+
+    let (net_rx, net_tx) = match (first_net, last_net) {
+        (Some((rx0, tx0)), Some((rx1, tx1))) => {
+            (Some(rx1.saturating_sub(rx0)), Some(tx1.saturating_sub(tx0)))
+        }
+        _ => (None, None),
+    };
+
+    Summary {
+        label: bundle.meta.label.clone(),
+        backend: bundle.meta.backend.as_str().to_string(),
+        duration_ms: bundle.duration_ms(),
