@@ -54,3 +54,11 @@ Initial release: a working, honest local developer-loop process profiler.
     timeline (reproducible via `make samples`).
 - **Docs & assets**
   - `README.md` (kernel-city/kite themed).
+  - `docs/PROFILE.md` — sampling methodology and bundle format reference.
+  - Two hand-authored, animated, fully local SVGs:
+    `docs/assets/kernel-kite.svg`, `docs/assets/devloop-skyline.svg`.
+- **Tooling**
+  - `Makefile` with build/test/fmt/clippy/samples/clean targets.
+  - GitHub Actions CI running the Rust suite on Linux (with real `/proc` tests)
+    and Windows (cfg-guard build), plus the TypeScript build and tests.
+
