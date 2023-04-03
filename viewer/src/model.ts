@@ -47,3 +47,10 @@ export function parseViewerDocument(input: unknown): ViewerDocument {
   const series: ViewerSeries[] = doc.series.map((raw, i) => {
     if (typeof raw !== "object" || raw === null) {
       throw new Error(`series[${i}] must be an object`);
+    }
+    const s = raw as Record<string, unknown>;
+    if (typeof s.pid !== "number") throw new Error(`series[${i}].pid must be a number`);
+    if (typeof s.ppid !== "number") throw new Error(`series[${i}].ppid must be a number`);
+    if (typeof s.comm !== "string") throw new Error(`series[${i}].comm must be a string`);
+    if (!isNumberArray(s.cpu_pct)) throw new Error(`series[${i}].cpu_pct must be numbers`);
+    if (!isNumberArray(s.rss_bytes)) throw new Error(`series[${i}].rss_bytes must be numbers`);
