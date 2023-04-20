@@ -84,3 +84,24 @@ pub fn tree_text(bundle: &ProfileBundle) -> String {
         for s in f.processes.values() {
             comm.insert(s.pid, s.comm.clone());
         }
+    }
+    let all_pids: std::collections::BTreeSet<i32> = comm.keys().copied().collect();
+    // Roots are pids whose parent is not itself an observed pid.
+    let mut roots: Vec<i32> = all_pids
+        .iter()
+        .copied()
+        .filter(|pid| {
+            let ppid = bundle
+                .frames
+                .iter()
+                .flat_map(|f| f.processes.values())
+                .find(|s| s.pid == *pid)
+                .map(|s| s.ppid)
+                .unwrap_or(0);
+            !all_pids.contains(&ppid)
+        })
+        .collect();
+    roots.sort_unstable();
+
+    let mut out = String::new();
+    out.push_str(&format!("Process tree ({} pids)\n", all_pids.len()));
