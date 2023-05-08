@@ -287,3 +287,32 @@ pub fn parse_net_dev(raw: &str) -> Option<NetworkSummary> {
 }
 
 /// Detect host constants from the running Linux system.
+pub fn detect_host_info() -> HostInfo {
+    // SAFETY: sysconf is a pure, thread-safe libc query with no side effects.
+    let clk = unsafe { sysconf(SC_CLK_TCK) };
+    let page = unsafe { sysconf(SC_PAGESIZE) };
+    HostInfo {
+        clock_ticks_per_sec: if clk > 0 { clk as u64 } else { 100 },
+        page_size_bytes: if page > 0 { page as u64 } else { 4096 },
+    }
+}
+
+// Minimal libc bindings so the core has no external C-binding dependency.
+const SC_CLK_TCK: i32 = 2;
+const SC_PAGESIZE: i32 = 30;
+
+extern "C" {
+    fn sysconf(name: i32) -> i64;
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::sampler::Sampler;
+
+    #[test]
+    fn parse_stat_handles_spaces_and_parens_in_comm() {
+        // comm = "(weird cmd)" containing spaces and inner parentheses.
+        // Layout: pid (comm) state ppid pgrp ... utime(14th) stime(15th) ... threads(20th)
+        // proc(5) fields 1..=52; here we only need up to num_threads (field 20).
+        let raw = "1234 ((weird cmd)) S 1000 1234 1234 0 -1 4194304 \
