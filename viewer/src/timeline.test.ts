@@ -36,3 +36,8 @@ test("renders valid SVG root with a viewBox", () => {
 test("includes one polyline per series with data", () => {
   const svg = renderTimelineSvg(doc);
   const polylines = svg.match(/<polyline /g) ?? [];
+  assert.equal(polylines.length, 2);
+});
+
+test("labels every process by pid and comm", () => {
+  const svg = renderTimelineSvg(doc);
