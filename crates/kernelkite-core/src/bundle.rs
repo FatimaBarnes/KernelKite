@@ -20,3 +20,9 @@ pub fn from_json(raw: &str) -> Result<ProfileBundle> {
     }
     Ok(bundle)
 }
+
+/// Write a bundle to a file path.
+pub fn save(bundle: &ProfileBundle, path: impl AsRef<std::path::Path>) -> Result<()> {
+    std::fs::write(path, to_json(bundle)?)?;
+    Ok(())
+}
