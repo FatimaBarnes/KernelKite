@@ -134,3 +134,20 @@ impl Cli {
 fn parse_num<T: std::str::FromStr>(v: Option<String>, flag: &str) -> Result<T, String> {
     v.ok_or_else(|| format!("{flag} requires a value"))?
         .parse()
+        .map_err(|_| format!("{flag} expects a number"))
+}
+
+fn parse_command(sub: &str, rest: Vec<String>) -> Result<Command, String> {
+    match sub {
+        "help" => Ok(Command::Help),
+        "version" => Ok(Command::Version),
+        "run" => {
+            // Layout: <bundle.json> -- <cmd> [args...]
+            let mut parts = rest.into_iter();
+            let out = parts
+                .next()
+                .ok_or_else(|| "run: missing output bundle path".to_string())?;
+            let sep = parts.next();
+            if sep.as_deref() != Some("--") {
+                return Err("run: expected `--` before the command to profile".into());
+            }
