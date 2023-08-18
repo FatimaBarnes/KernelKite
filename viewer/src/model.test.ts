@@ -39,3 +39,8 @@ test("rejects non-object input", () => {
 
 test("rejects missing fields", () => {
   const bad: Record<string, unknown> = structuredClone(valid);
+  delete bad.backend;
+  assert.throws(() => parseViewerDocument(bad), /backend/);
+});
+
+test("humanBytes formats binary units", () => {
