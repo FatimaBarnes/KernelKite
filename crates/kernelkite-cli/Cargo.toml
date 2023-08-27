@@ -6,3 +6,5 @@ rust-version.workspace = true
 license.workspace = true
 authors.workspace = true
 repository.workspace = true
+description = "Command-line interface for the kernelkite process profiler"
+
