@@ -15,3 +15,6 @@
     "test": "node --test dist/model.test.js dist/timeline.test.js",
     "render": "node dist/cli.js"
   },
+  "files": [
+    "dist",
+    "src"
