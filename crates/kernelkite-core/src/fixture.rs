@@ -45,3 +45,10 @@ impl Fixture {
         }
         Ok(fx)
     }
+}
+
+/// Replays a [`Fixture`] frame by frame.
+pub struct FixtureSampler {
+    frames: std::vec::IntoIter<Frame>,
+    host: HostInfo,
+}
