@@ -129,3 +129,18 @@ pub struct CaptureMeta {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub exit_code: Option<i32>,
 }
+
+/// A complete, self-contained profile bundle.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct ProfileBundle {
+    pub meta: CaptureMeta,
+    pub frames: Vec<Frame>,
+}
+
+impl ProfileBundle {
+    /// Total wall-clock span covered by the frames, in milliseconds.
+    pub fn duration_ms(&self) -> u64 {
+        match (self.frames.first(), self.frames.last()) {
+            (Some(a), Some(b)) => b.t_ms.saturating_sub(a.t_ms),
+            _ => 0,
+        }
