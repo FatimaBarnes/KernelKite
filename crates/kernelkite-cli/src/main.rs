@@ -129,3 +129,19 @@ fn cmd_summary(cli: &Cli, bundle_path: &str) -> kk::Result<ExitCode> {
         print!("{}", render::summary_text(&summary));
     }
     Ok(ExitCode::SUCCESS)
+}
+
+fn cmd_compare(cli: &Cli, before: &str, after: &str) -> kk::Result<ExitCode> {
+    let b = kk::load(before)?;
+    let a = kk::load(after)?;
+    let cmp = kk::compare(&b, &a);
+    if cli.json {
+        println!("{}", serde_json::to_string_pretty(&cmp)?);
+    } else {
+        print!("{}", render::comparison_text(&cmp));
+    }
+    Ok(ExitCode::SUCCESS)
+}
+
+fn cmd_tree(bundle_path: &str) -> kk::Result<ExitCode> {
+    let bundle = kk::load(bundle_path)?;
