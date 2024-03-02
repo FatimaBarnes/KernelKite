@@ -316,3 +316,32 @@ mod tests {
         // Layout: pid (comm) state ppid pgrp ... utime(14th) stime(15th) ... threads(20th)
         // proc(5) fields 1..=52; here we only need up to num_threads (field 20).
         let raw = "1234 ((weird cmd)) S 1000 1234 1234 0 -1 4194304 \
+                   100 200 0 0 4200 1800 0 0 20 0 7 0 \
+                   1500 1000000 512 18446744073709551615 1 1 0 0 0 0 0";
+        let s = parse_stat(raw).expect("should parse");
+        assert_eq!(s.comm, "(weird cmd)");
+        assert_eq!(s.ppid, 1000);
+        assert_eq!(s.utime, 4200);
+        assert_eq!(s.stime, 1800);
+        assert_eq!(s.num_threads, 7);
+    }
+
+    #[test]
+    fn parse_io_prefers_storage_bytes() {
+        let raw = "rchar: 999\nwchar: 888\nsyscr: 7\nsyscw: 8\n\
+                   read_bytes: 4096\nwrite_bytes: 8192\ncancelled_write_bytes: 0\n";
+        assert_eq!(parse_io(raw), Some((4096, 8192)));
+    }
+
+    #[test]
+    fn parse_net_dev_sums_non_loopback() {
+        let raw = "Inter-|   Receive                    |  Transmit\n\
+                   face |bytes packets errs drop fifo frame compressed multicast|bytes packets\n\
+                   lo:  1000 10 0 0 0 0 0 0 1000 10 0 0 0 0 0 0\n\
+                   eth0:  5000 50 0 0 0 0 0 0 3000 30 0 0 0 0 0 0\n\
+                   wlan0: 2000 20 0 0 0 0 0 0 1500 15 0 0 0 0 0 0\n";
+        let n = parse_net_dev(raw).expect("summary");
+        assert_eq!(n.rx_bytes, 7000); // 5000 + 2000, loopback excluded
+        assert_eq!(n.tx_bytes, 4500); // 3000 + 1500
+        assert_eq!(n.interfaces, vec!["eth0".to_string(), "wlan0".to_string()]);
+    }
