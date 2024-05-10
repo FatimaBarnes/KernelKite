@@ -151,3 +151,20 @@ fn parse_command(sub: &str, rest: Vec<String>) -> Result<Command, String> {
             if sep.as_deref() != Some("--") {
                 return Err("run: expected `--` before the command to profile".into());
             }
+            let command: Vec<String> = parts.collect();
+            if command.is_empty() {
+                return Err("run: no command specified after `--`".into());
+            }
+            Ok(Command::Run { out, command })
+        }
+        "replay" => {
+            let mut p = rest.into_iter();
+            let fixture = p
+                .next()
+                .ok_or_else(|| "replay: missing fixture path".to_string())?;
+            let out = p
+                .next()
+                .ok_or_else(|| "replay: missing output bundle path".to_string())?;
+            Ok(Command::Replay { fixture, out })
+        }
+        "summary" => {
