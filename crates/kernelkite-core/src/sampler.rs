@@ -44,3 +44,7 @@ impl HostInfo {
         }
     }
 }
+
+/// Something that can produce timeline frames.
+pub trait Sampler {
+    /// Which backend this sampler represents.
