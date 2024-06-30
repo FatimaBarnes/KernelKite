@@ -59,3 +59,10 @@ impl FixtureSampler {
             host: HostInfo {
                 clock_ticks_per_sec: fixture.clock_ticks_per_sec,
                 page_size_bytes: fixture.page_size_bytes,
+            },
+            frames: fixture.frames.into_iter(),
+        }
+    }
+}
+
+impl Sampler for FixtureSampler {
