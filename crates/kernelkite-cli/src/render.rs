@@ -105,3 +105,25 @@ pub fn tree_text(bundle: &ProfileBundle) -> String {
 
     let mut out = String::new();
     out.push_str(&format!("Process tree ({} pids)\n", all_pids.len()));
+    for r in roots {
+        render_node(&mut out, r, &tree, &comm, 0);
+    }
+    out
+}
+
+fn render_node(
+    out: &mut String,
+    pid: i32,
+    tree: &std::collections::BTreeMap<i32, Vec<i32>>,
+    comm: &std::collections::BTreeMap<i32, String>,
+    depth: usize,
+) {
+    let name = comm.get(&pid).map(String::as_str).unwrap_or("?");
+    out.push_str(&format!("{}{} {}\n", "  ".repeat(depth), pid, name));
+    if let Some(children) = tree.get(&pid) {
+        for c in children {
+            if *c != pid {
+                render_node(out, *c, tree, comm, depth + 1);
+            }
+        }
+    }
