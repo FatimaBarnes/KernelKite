@@ -48,3 +48,7 @@ impl HostInfo {
 /// Something that can produce timeline frames.
 pub trait Sampler {
     /// Which backend this sampler represents.
+    fn backend(&self) -> Backend;
+
+    /// Capture one frame at logical time `t_ms`. Backends that have exhausted
+    /// their input (e.g. a fixture) return `Ok(None)`.
