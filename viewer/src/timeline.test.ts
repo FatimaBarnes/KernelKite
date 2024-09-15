@@ -46,3 +46,7 @@ test("labels every process by pid and comm", () => {
 });
 
 test("escapes XML-sensitive characters in comm", () => {
+  const tricky = parseViewerDocument({
+    label: "x",
+    backend: "fixture",
+    interval_ms: 100,
