@@ -10,3 +10,5 @@ description = "Command-line interface for the kernelkite process profiler"
 
 [[bin]]
 name = "kernelkite"
+path = "src/main.rs"
+
