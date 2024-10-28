@@ -168,3 +168,20 @@ fn parse_command(sub: &str, rest: Vec<String>) -> Result<Command, String> {
             Ok(Command::Replay { fixture, out })
         }
         "summary" => {
+            let bundle = rest
+                .into_iter()
+                .next()
+                .ok_or_else(|| "summary: missing bundle path".to_string())?;
+            Ok(Command::Summary { bundle })
+        }
+        "compare" => {
+            let mut p = rest.into_iter();
+            let before = p
+                .next()
+                .ok_or_else(|| "compare: missing before bundle".to_string())?;
+            let after = p
+                .next()
+                .ok_or_else(|| "compare: missing after bundle".to_string())?;
+            Ok(Command::Compare { before, after })
+        }
+        "tree" => {
