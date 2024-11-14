@@ -129,3 +129,17 @@ fn fixture_replay_is_deterministic() {
             max_frames: 1000,
             record_wall_clock: false,
         };
+        kk::capture(sampler, &opts).unwrap()
+    };
+    let a = run_once();
+    let b = run_once();
+    assert_eq!(a.frames.len(), 4);
+    assert_eq!(kk::to_json(&a).unwrap(), kk::to_json(&b).unwrap());
+}
+
+#[test]
+fn fixture_rejects_out_of_order_frames() {
+    let mut fixture = kk::Fixture {
+        clock_ticks_per_sec: 100,
+        page_size_bytes: 4096,
+        frames: vec![Frame::new(100), Frame::new(50)],
