@@ -12,3 +12,5 @@ rust-version = "1.74"
 license = "MIT"
 authors = ["kernelkite contributors"]
 repository = "https://github.com/kernelkite/kernelkite"
+description = "Linux-first local developer-loop process profiler"
+
