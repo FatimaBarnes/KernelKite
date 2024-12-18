@@ -44,3 +44,7 @@
       "metric": "peak_rss_bytes",
       "before": 988807168.0,
       "after": 391118848.0,
+      "abs_change": -597688320.0,
+      "pct_change": -60.44538706256628
+    },
+    {
