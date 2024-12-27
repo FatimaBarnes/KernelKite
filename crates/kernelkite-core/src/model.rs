@@ -144,3 +144,18 @@ impl ProfileBundle {
             (Some(a), Some(b)) => b.t_ms.saturating_sub(a.t_ms),
             _ => 0,
         }
+    }
+
+    /// Every distinct pid that appears anywhere in the timeline.
+    pub fn pids(&self) -> Vec<i32> {
+        let mut set = std::collections::BTreeSet::new();
+        for f in &self.frames {
+            for pid in f.processes.keys() {
+                set.insert(*pid);
+            }
+        }
+        set.into_iter().collect()
+    }
+
+    /// Reconstruct parent -> children relationships from the last frame that
+    /// observed each pid. Returns a map from ppid to sorted child pids.
