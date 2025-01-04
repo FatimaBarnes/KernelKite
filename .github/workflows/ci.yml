@@ -54,3 +54,12 @@ jobs:
         run: cargo build -p kernelkite-cli --features ebpf
 
   viewer:
+    name: typescript viewer
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
