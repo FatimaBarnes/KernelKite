@@ -159,3 +159,17 @@ impl ProfileBundle {
 
     /// Reconstruct parent -> children relationships from the last frame that
     /// observed each pid. Returns a map from ppid to sorted child pids.
+    pub fn process_tree(&self) -> BTreeMap<i32, Vec<i32>> {
+        let mut latest: BTreeMap<i32, i32> = BTreeMap::new();
+        for f in &self.frames {
+            for s in f.processes.values() {
+                latest.insert(s.pid, s.ppid);
+            }
+        }
+        let mut tree: BTreeMap<i32, Vec<i32>> = BTreeMap::new();
+        for (pid, ppid) in latest {
+            tree.entry(ppid).or_default().push(pid);
+        }
+        for children in tree.values_mut() {
+            children.sort_unstable();
+        }
