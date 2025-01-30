@@ -50,3 +50,8 @@ test("escapes XML-sensitive characters in comm", () => {
     label: "x",
     backend: "fixture",
     interval_ms: 100,
+    t_ms: [0, 100],
+    series: [
+      {
+        pid: 1,
+        ppid: 0,
