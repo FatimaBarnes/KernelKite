@@ -48,3 +48,8 @@
       "pct_change": -60.44538706256628
     },
     {
+      "metric": "distinct_pids",
+      "before": 4.0,
+      "after": 3.0,
+      "abs_change": -1.0,
+      "pct_change": -25.0
