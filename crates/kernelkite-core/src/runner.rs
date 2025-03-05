@@ -86,3 +86,17 @@ pub fn capture(mut sampler: impl Sampler, opts: &CaptureOptions) -> Result<Profi
         match sampler.sample(t_ms)? {
             Some(frame) => frames.push(frame),
             None => break,
+        }
+        if !is_fixture && i + 1 < opts.max_frames {
+            std::thread::sleep(Duration::from_millis(opts.interval_ms));
+        }
+    }
+
+    Ok(ProfileBundle { meta, frames })
+}
+
+/// Spawn `command`, profile it with `sampler` until it exits, and return the
+/// bundle including the child's exit code.
+///
+/// The sampler is expected to already be scoped to the interesting pids (for
+/// example a `PidFilter::Subtree` rooted at the child). The child pid is
