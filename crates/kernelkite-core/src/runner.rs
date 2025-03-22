@@ -100,3 +100,18 @@ pub fn capture(mut sampler: impl Sampler, opts: &CaptureOptions) -> Result<Profi
 ///
 /// The sampler is expected to already be scoped to the interesting pids (for
 /// example a `PidFilter::Subtree` rooted at the child). The child pid is
+/// returned to the caller via `on_spawn` so a Linux caller can build such a
+/// subtree filter *after* the fork.
+pub fn run_and_profile<S, F>(
+    command: &[String],
+    mut make_sampler: F,
+    opts: &CaptureOptions,
+) -> Result<ProfileBundle>
+where
+    S: Sampler,
+    F: FnMut(u32) -> Result<S>,
+{
+    if command.is_empty() {
+        return Err(crate::error::Error::Invalid("empty command".into()));
+    }
+    let mut child = std::process::Command::new(&command[0])
