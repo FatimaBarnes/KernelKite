@@ -47,3 +47,11 @@ function main(argv: string[]): number {
 
   if (!outPath) {
     process.stdout.write(svg + "\n");
+    return 0;
+  }
+
+  const output = outPath.toLowerCase().endsWith(".html")
+    ? renderStandaloneHtml(doc, svg)
+    : svg;
+  try {
+    writeFileSync(outPath, output);
