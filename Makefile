@@ -33,3 +33,9 @@ fmt-check: ## Check formatting without writing
 .PHONY: clippy
 clippy: ## Lint with clippy, warnings as errors
 	$(CARGO) clippy --workspace --all-targets -- -D warnings
+
+.PHONY: viewer
+viewer: ## Build and test the TypeScript viewer
+	cd viewer && $(NPM) ci || $(NPM) install
+	cd viewer && $(NPM) run build
+	cd viewer && $(NPM) test
