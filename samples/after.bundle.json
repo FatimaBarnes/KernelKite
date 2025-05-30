@@ -122,3 +122,15 @@
           "pid": 6020,
           "ppid": 6010,
           "comm": "ld",
+          "utime_ticks": 8,
+          "stime_ticks": 4,
+          "rss_bytes": 50331648,
+          "vsize_bytes": 402653184,
+          "threads": 1,
+          "read_bytes": 393216,
+          "write_bytes": 786432,
+          "open_fds": 16
+        }
+      ]
+    },
+    {
