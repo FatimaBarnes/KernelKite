@@ -55,3 +55,12 @@ function main(argv: string[]): number {
     : svg;
   try {
     writeFileSync(outPath, output);
+    process.stderr.write(`wrote ${outPath}\n`);
+  } catch (e) {
+    process.stderr.write(`error: cannot write ${outPath}: ${String(e)}\n`);
+    return 1;
+  }
+  return 0;
+}
+
+process.exit(main(process.argv));
