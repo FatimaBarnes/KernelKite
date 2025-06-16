@@ -18,3 +18,5 @@
   "files": [
     "dist",
     "src"
+  ],
+  "engines": {
