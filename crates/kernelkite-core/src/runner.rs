@@ -115,3 +115,18 @@ where
         return Err(crate::error::Error::Invalid("empty command".into()));
     }
     let mut child = std::process::Command::new(&command[0])
+        .args(&command[1..])
+        .spawn()?;
+    let child_pid = child.id();
+
+    let mut sampler = make_sampler(child_pid)?;
+    let mut meta = base_meta(&sampler, opts);
+    meta.command = Some(command.to_vec());
+
+    let mut frames = Vec::new();
+    let start = Instant::now();
+
+    let exit_code = loop {
+        let t_ms = start.elapsed().as_millis() as u64;
+        if let Some(frame) = sampler.sample(t_ms)? {
+            frames.push(frame);
