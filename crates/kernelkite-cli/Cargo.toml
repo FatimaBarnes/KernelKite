@@ -12,3 +12,5 @@ description = "Command-line interface for the kernelkite process profiler"
 name = "kernelkite"
 path = "src/main.rs"
 
+[dependencies]
+kernelkite-core = { path = "../kernelkite-core" }
