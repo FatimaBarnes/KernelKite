@@ -72,3 +72,13 @@ jobs:
         working-directory: viewer
         run: npm run build
 
+      - name: Test
+        working-directory: viewer
+        run: npm test
+
+  samples:
+    name: reproduce samples (linux)
+    runs-on: ubuntu-latest
+    needs: [rust, viewer]
+    steps:
+      - uses: actions/checkout@v4
