@@ -52,3 +52,8 @@ pub trait Sampler {
 
     /// Capture one frame at logical time `t_ms`. Backends that have exhausted
     /// their input (e.g. a fixture) return `Ok(None)`.
+    fn sample(&mut self, t_ms: u64) -> Result<Option<Frame>>;
+
+    /// Host constants used to interpret counters from this sampler.
+    fn host_info(&self) -> HostInfo;
+}
