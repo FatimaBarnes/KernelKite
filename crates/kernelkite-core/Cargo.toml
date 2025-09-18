@@ -17,3 +17,5 @@ tempfile = "3"
 
 [features]
 default = []
+# The `ebpf` feature is a placeholder switch for a FUTURE eBPF backend.
+# It is intentionally NOT implemented. Enabling it compiles a stub backend
