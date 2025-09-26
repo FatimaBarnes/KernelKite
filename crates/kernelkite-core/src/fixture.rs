@@ -66,3 +66,10 @@ impl FixtureSampler {
 }
 
 impl Sampler for FixtureSampler {
+    fn backend(&self) -> Backend {
+        Backend::Fixture
+    }
+
+    fn host_info(&self) -> HostInfo {
+        self.host
+    }
