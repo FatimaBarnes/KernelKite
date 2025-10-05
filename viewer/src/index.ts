@@ -10,3 +10,5 @@
 export {
   ViewerDocument,
   ViewerSeries,
+  parseViewerDocument,
+  humanBytes,
