@@ -173,3 +173,18 @@ impl ProfileBundle {
         for children in tree.values_mut() {
             children.sort_unstable();
         }
+        tree
+    }
+}
+
+/// Serde adaptor: serialize the pid-keyed map as a JSON array of samples so the
+/// on-disk form is stable and easy to consume from TypeScript, while keeping a
+/// `BTreeMap` in memory for ordered iteration.
+mod pid_map {
+    use super::ProcessSample;
+    use serde::de::Deserializer;
+    use serde::ser::Serializer;
+    use serde::{Deserialize, Serialize};
+    use std::collections::BTreeMap;
+
+    pub fn serialize<S>(map: &BTreeMap<i32, ProcessSample>, ser: S) -> Result<S::Ok, S::Error>
