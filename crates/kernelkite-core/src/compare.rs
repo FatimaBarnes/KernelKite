@@ -154,3 +154,15 @@ impl Delta {
             after,
             abs_change: abs,
             pct_change: pct,
+        }
+    }
+}
+
+/// Full before/after comparison report.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct Comparison {
+    pub before: Summary,
+    pub after: Summary,
+    pub deltas: Vec<Delta>,
+}
+
