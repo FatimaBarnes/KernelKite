@@ -143,3 +143,18 @@ fn fixture_rejects_out_of_order_frames() {
         clock_ticks_per_sec: 100,
         page_size_bytes: 4096,
         frames: vec![Frame::new(100), Frame::new(50)],
+    };
+    // Ensure they carry at least one process so JSON is representative.
+    fixture.frames[0].insert(sample(1, 0, "init", 0, 4096));
+    let json = serde_json::to_string(&fixture).unwrap();
+    let err = kk::Fixture::from_json(&json).unwrap_err();
+    assert!(matches!(err, kk::Error::Invalid(_)));
+}
+
+#[test]
+fn process_tree_links_parent_and_child() {
+    let b = make_bundle("tree", 100, 4096);
+    let tree = b.process_tree();
+    // pid 1000's parent is 1; pid 1001's parent is 1000.
+    assert_eq!(tree.get(&1), Some(&vec![1000]));
+    assert_eq!(tree.get(&1000), Some(&vec![1001]));
