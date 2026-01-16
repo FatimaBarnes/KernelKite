@@ -126,3 +126,19 @@ bundle always serializes to identical bytes (verified by
 
 ```jsonc
 {
+  "meta": {
+    "schema_version": 1,
+    "backend": "proc" | "fixture" | "ebpf",
+    "label": "before",
+    "command": ["cargo", "build"],      // present for live runs
+    "clock_ticks_per_sec": 100,
+    "page_size_bytes": 4096,
+    "interval_ms": 100,
+    "started_unix_secs": 1735689600,    // omitted for deterministic fixtures
+    "host_os": "linux",
+    "exit_code": 0                        // present when a command was run
+  },
+  "frames": [
+    {
+      "t_ms": 0,
+      "processes": [                      // serialized as an array, keyed by pid in memory
