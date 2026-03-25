@@ -45,3 +45,9 @@ samples: build viewer ## Regenerate sample bundles, comparison, viewer docs and 
 	$(BIN) --label before replay fixtures/cargo-build-before.json samples/before.bundle.json
 	$(BIN) --label after  replay fixtures/cargo-build-after.json  samples/after.bundle.json
 	$(BIN) --json compare samples/before.bundle.json samples/after.bundle.json > samples/comparison.json
+	$(BIN) viewer samples/before.bundle.json samples/before.viewer.json
+	$(BIN) viewer samples/after.bundle.json  samples/after.viewer.json
+	node viewer/dist/cli.js samples/before.viewer.json samples/before.timeline.svg
+	node viewer/dist/cli.js samples/after.viewer.json  samples/after.timeline.html
+
+.PHONY: demo
