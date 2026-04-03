@@ -14,3 +14,5 @@ path = "src/main.rs"
 
 [dependencies]
 kernelkite-core = { path = "../kernelkite-core" }
+serde = { workspace = true }
+serde_json = { workspace = true }
