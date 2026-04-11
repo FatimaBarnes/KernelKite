@@ -158,3 +158,18 @@ fn process_tree_links_parent_and_child() {
     // pid 1000's parent is 1; pid 1001's parent is 1000.
     assert_eq!(tree.get(&1), Some(&vec![1000]));
     assert_eq!(tree.get(&1000), Some(&vec![1001]));
+}
+
+#[test]
+fn ebpf_backend_is_not_implemented() {
+    let mut s = kk::ebpf::EbpfSampler::new();
+    assert_eq!(s.backend(), Backend::Ebpf);
+    let err = s.sample(0).unwrap_err();
+    match err {
+        kk::Error::Unsupported(msg) => {
+            assert!(msg.contains("eBPF"));
+            assert!(msg.contains("not implemented"));
+        }
+        other => panic!("expected Unsupported, got {other:?}"),
+    }
+}
