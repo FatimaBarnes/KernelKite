@@ -170,3 +170,24 @@ pub fn viewer_document(bundle: &ProfileBundle) -> ViewerDocument {
         let mut prev_t: Option<u64> = None;
 
         for f in &bundle.frames {
+            if let Some(s) = f.processes.get(&pid) {
+                ppid = s.ppid;
+                comm = s.comm.clone();
+                let cpu = s.utime_ticks + s.stime_ticks;
+                let pct = match (prev_cpu, prev_t) {
+                    (Some(pc), Some(pt)) if f.t_ms > pt => {
+                        let dticks = cpu.saturating_sub(pc) as f64;
+                        let dt_secs = (f.t_ms - pt) as f64 / 1000.0;
+                        if dt_secs > 0.0 {
+                            (dticks / ticks_per_sec) / dt_secs * 100.0
+                        } else {
+                            0.0
+                        }
+                    }
+                    _ => 0.0,
+                };
+                cpu_pct.push(pct);
+                rss_bytes.push(s.rss_bytes);
+                prev_cpu = Some(cpu);
+                prev_t = Some(f.t_ms);
+            } else {
