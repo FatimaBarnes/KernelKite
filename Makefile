@@ -51,3 +51,9 @@ samples: build viewer ## Regenerate sample bundles, comparison, viewer docs and 
 	node viewer/dist/cli.js samples/after.viewer.json  samples/after.timeline.html
 
 .PHONY: demo
+demo: build ## Print a summary + comparison from the shipped sample bundles
+	$(BIN) summary samples/before.bundle.json
+	@echo
+	$(BIN) compare samples/before.bundle.json samples/after.bundle.json
+
+.PHONY: ci
