@@ -209,3 +209,24 @@ GLOBAL FLAGS
 
 Both `summary` and `compare` accept `--json` for piping:
 
+```bash
+kernelkite --json compare before.bundle.json after.bundle.json | jq '.deltas[] | select(.metric=="cpu_seconds")'
+```
+
+## Testing and CI
+
+- Rust: cross-platform tests (fixtures, comparison, bundle round-trip, schema validation, the eBPF stub refusal) run on every OS. On Linux an extra suite drives the real `/proc` parser against a synthetic procfs tree built in a temp directory.
+- TypeScript: `node --test` covers the document parser (including misaligned-array and XML-escaping edge cases) and the SVG renderer (valid root, one polyline per series, no remote URLs).
+- CI matrix: GitHub Actions builds and tests on Ubuntu and Windows, builds the `ebpf`-feature stub, and regenerates `samples/` to fail on drift.
+
+```bash
+cargo test --workspace           # Rust
+cd viewer && npm test            # TypeScript
+```
+
+## Design principles
+
+1. Measure processes, not runtimes. Watching the process subtree through `/proc` captures the whole loop regardless of the language that raised it.
+2. A bundle is a fact, a summary is an opinion. The on-disk bundle stores raw cumulative counters as the kernel reported them; derived numbers are computed from that fact at analysis time.
+3. Determinism is a feature. Stable field order, `BTreeMap` iteration, wall-clock omission for fixtures, and schema validation give "same input, same bytes".
+4. Small, auditable dependency surface. The core depends only on `serde` and `serde_json`; the error type is hand-written; the `sysconf` calls are two `extern "C"` lines. The CLI argument parser is hand-rolled.
