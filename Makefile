@@ -57,3 +57,9 @@ demo: build ## Print a summary + comparison from the shipped sample bundles
 	$(BIN) compare samples/before.bundle.json samples/after.bundle.json
 
 .PHONY: ci
+ci: fmt-check clippy test viewer ## Everything CI runs
+
+.PHONY: clean
+clean: ## Remove build artifacts
+	$(CARGO) clean
+	rm -rf viewer/dist viewer/node_modules
