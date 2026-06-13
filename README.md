@@ -230,3 +230,25 @@ cd viewer && npm test            # TypeScript
 2. A bundle is a fact, a summary is an opinion. The on-disk bundle stores raw cumulative counters as the kernel reported them; derived numbers are computed from that fact at analysis time.
 3. Determinism is a feature. Stable field order, `BTreeMap` iteration, wall-clock omission for fixtures, and schema validation give "same input, same bytes".
 4. Small, auditable dependency surface. The core depends only on `serde` and `serde_json`; the error type is hand-written; the `sysconf` calls are two `extern "C"` lines. The CLI argument parser is hand-rolled.
+5. No fake capability. The eBPF stub refuses rather than pretends, and the network summary is labeled host-wide rather than dressed up as per-process.
+
+## FAQ
+
+**Does kernelkite need root?**
+No. It needs read access to the `/proc` entries of the processes it profiles, which for your own dev-loop commands is your own user. Profiling processes you do not own may require elevated privileges, as usual for `/proc`.
+
+**What is the overhead?**
+It is a sampling profiler, so cost is roughly one pass over `/proc` for the in-scope pids per interval. Tighten the interval for very short loops, widen it for long ones.
+
+**Why sampling instead of tracing?**
+Tracing every syscall is high-overhead and perturbs timing. Sampling gives a faithful shape of a loop that runs for hundreds of milliseconds or more, with bounded cost and no special privileges.
+
+**Can I profile something that is not a build?**
+Yes, anything that runs: `kernelkite run out.json -- pytest -q`, `... -- npm test`, `... -- ./ci.sh`.
+
+**Is any media in this repo fetched from the internet?**
+No. Both banners are hand-authored local SVGs in `docs/assets/` with no remote references. The viewer HTML output is likewise self-contained.
+
+## License
+
+MIT, see [LICENSE](LICENSE).
