@@ -55,3 +55,8 @@ test("escapes XML-sensitive characters in comm", () => {
       {
         pid: 1,
         ppid: 0,
+        comm: "a<b>&c",
+        cpu_pct: [0, 1],
+        rss_bytes: [0, 1],
+      },
+    ],
