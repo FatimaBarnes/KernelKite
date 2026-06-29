@@ -345,3 +345,32 @@ mod tests {
         assert_eq!(n.tx_bytes, 4500); // 3000 + 1500
         assert_eq!(n.interfaces, vec!["eth0".to_string(), "wlan0".to_string()]);
     }
+
+    /// Build a synthetic procfs tree and drive `ProcSampler` over it. This runs
+    /// the entire /proc read path without needing real processes and works on
+    /// the Linux CI runner.
+    #[test]
+    fn proc_sampler_reads_synthetic_tree() {
+        let dir = tempfile::tempdir().unwrap();
+        let root = dir.path();
+
+        let mk = |pid: i32, ppid: i32, comm: &str, utime: u64| {
+            let p = root.join(pid.to_string());
+            std::fs::create_dir_all(p.join("fd")).unwrap();
+            // one fake open fd
+            std::fs::write(p.join("fd").join("0"), b"").unwrap();
+            let stat = format!(
+                "{pid} ({comm}) S {ppid} {pid} {pid} 0 -1 0 0 0 0 0 {utime} 10 0 0 20 0 3 0 \
+                 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0"
+            );
+            std::fs::write(p.join("stat"), stat).unwrap();
+            // statm: size resident shared text lib data dt (in pages)
+            std::fs::write(p.join("statm"), "2000 500 100 1 0 300 0").unwrap();
+            std::fs::write(
+                p.join("io"),
+                "rchar: 1\nwchar: 1\nread_bytes: 4096\nwrite_bytes: 8192\n",
+            )
+            .unwrap();
+        };
+        mk(100, 1, "make", 50);
+        mk(101, 100, "cc1", 20);
