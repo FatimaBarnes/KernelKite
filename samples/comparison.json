@@ -53,3 +53,7 @@
       "after": 3.0,
       "abs_change": -1.0,
       "pct_change": -25.0
+    },
+    {
+      "metric": "read_bytes",
+      "before": 3506176.0,
