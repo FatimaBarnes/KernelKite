@@ -55,3 +55,17 @@ pub mod proc_linux {
     }
 
     /// Non-Linux stand-in for the `/proc` sampler. Construction succeeds so
+    /// code paths type-check, but sampling reports that `/proc` is absent.
+    pub struct ProcSampler {
+        host: HostInfo,
+    }
+
+    impl ProcSampler {
+        pub fn new(_filter: PidFilter, _with_network: bool) -> Self {
+            ProcSampler {
+                host: HostInfo::default(),
+            }
+        }
+
+        pub fn rooted(
+            _filter: PidFilter,
