@@ -15,3 +15,5 @@ export {
 } from "./model.js";
 
 export {
+  TimelineOptions,
+  DEFAULT_OPTIONS,
