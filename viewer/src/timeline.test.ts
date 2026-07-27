@@ -60,3 +60,8 @@ test("escapes XML-sensitive characters in comm", () => {
         rss_bytes: [0, 1],
       },
     ],
+  });
+  const svg = renderTimelineSvg(tricky);
+  assert.match(svg, /a&lt;b&gt;&amp;c/);
+  assert.ok(!svg.includes("a<b>&c"));
+});
