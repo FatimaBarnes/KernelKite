@@ -75,3 +75,10 @@
 
   <!-- connectors subtree -> frames -> bundle -->
   <g stroke="#3d4c5e" stroke-width="2" fill="none" marker-end="url(#arrow)">
+    <line x1="372" y1="150" x2="426" y2="150"/>
+    <line x1="566" y1="150" x2="636" y2="150"/>
+  </g>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0 0 L8 4 L0 8 Z" fill="#3d4c5e"/>
+    </marker>
