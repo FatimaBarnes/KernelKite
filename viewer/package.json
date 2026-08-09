@@ -20,3 +20,6 @@
     "src"
   ],
   "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
