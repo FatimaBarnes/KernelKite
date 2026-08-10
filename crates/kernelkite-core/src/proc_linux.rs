@@ -374,3 +374,32 @@ mod tests {
         };
         mk(100, 1, "make", 50);
         mk(101, 100, "cc1", 20);
+
+        let mut s = ProcSampler::rooted(PidFilter::All, false, root);
+        // Force a deterministic host_info for the assertion below.
+        s.host = HostInfo {
+            clock_ticks_per_sec: 100,
+            page_size_bytes: 4096,
+        };
+        let frame = s.sample(0).unwrap().unwrap();
+        assert_eq!(frame.processes.len(), 2);
+        let make = &frame.processes[&100];
+        assert_eq!(make.comm, "make");
+        assert_eq!(make.ppid, 1);
+        assert_eq!(make.utime_ticks, 50);
+        assert_eq!(make.rss_bytes, 500 * 4096);
+        assert_eq!(make.read_bytes, Some(4096));
+        assert_eq!(make.open_fds, Some(1));
+
+        // Subtree filter rooted at make should include cc1.
+        let mut sub = ProcSampler::rooted(PidFilter::Subtree(100), false, root);
+        let f2 = sub.sample(0).unwrap().unwrap();
+        assert_eq!(f2.processes.len(), 2);
+
+        // Subtree rooted at cc1 alone should include just cc1.
+        let mut leaf = ProcSampler::rooted(PidFilter::Subtree(101), false, root);
+        let f3 = leaf.sample(0).unwrap().unwrap();
+        assert_eq!(f3.processes.len(), 1);
+        assert!(f3.processes.contains_key(&101));
+    }
+}
