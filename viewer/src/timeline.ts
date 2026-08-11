@@ -158,3 +158,18 @@ export function renderStandaloneHtml(doc: ViewerDocument, svg: string): string {
   h1 { font-size: 18px; }
   .card { background: #0d1117; border: 1px solid #21262d; border-radius: 8px;
           padding: 12px; overflow-x: auto; }
+  footer { color: #8b949e; font-size: 11px; margin-top: 16px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>kernelkite timeline</h1>
+  <div class="card">${svg}</div>
+  <footer>Rendered locally from a kernelkite viewer document · backend: ${escapeXml(
+    doc.backend,
+  )}</footer>
+</main>
+</body>
+</html>
+`;
+}
