@@ -166,3 +166,15 @@ pub struct Comparison {
     pub deltas: Vec<Delta>,
 }
 
+/// Compare two bundles and produce a deterministic list of deltas.
+pub fn compare(before: &ProfileBundle, after: &ProfileBundle) -> Comparison {
+    let b = summarize(before);
+    let a = summarize(after);
+    let mut deltas = vec![
+        Delta::new("duration_ms", b.duration_ms as f64, a.duration_ms as f64),
+        Delta::new("cpu_seconds", b.cpu_seconds, a.cpu_seconds),
+        Delta::new(
+            "peak_rss_bytes",
+            b.peak_rss_bytes as f64,
+            a.peak_rss_bytes as f64,
+        ),
