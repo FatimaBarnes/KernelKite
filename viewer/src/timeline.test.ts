@@ -65,3 +65,8 @@ test("escapes XML-sensitive characters in comm", () => {
   assert.match(svg, /a&lt;b&gt;&amp;c/);
   assert.ok(!svg.includes("a<b>&c"));
 });
+
+test("standalone HTML contains the SVG and no remote URLs", () => {
+  const svg = renderTimelineSvg(doc);
+  const html = renderStandaloneHtml(doc, svg);
+  assert.match(html, /<!DOCTYPE html>/);
