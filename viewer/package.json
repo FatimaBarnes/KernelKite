@@ -23,3 +23,6 @@
     "node": ">=18"
   },
   "devDependencies": {
+    "@types/node": "^22.20.1"
+  }
+}
