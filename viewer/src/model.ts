@@ -68,3 +68,10 @@ export function parseViewerDocument(input: unknown): ViewerDocument {
       rss_bytes: s.rss_bytes,
     };
   });
+
+  return {
+    label: doc.label,
+    backend: doc.backend,
+    interval_ms: doc.interval_ms,
+    t_ms: doc.t_ms,
+    series,
