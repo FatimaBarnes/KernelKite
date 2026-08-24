@@ -21,3 +21,5 @@ default = []
 # It is intentionally NOT implemented. Enabling it compiles a stub backend
 # that returns an explicit "not implemented" error at runtime so that no
 # fabricated eBPF data is ever produced. See docs/PROFILE.md.
+ebpf = []
+
