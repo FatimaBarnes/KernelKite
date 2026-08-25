@@ -91,3 +91,13 @@ jobs:
         run: cargo build --release
 
       - name: Build viewer
+        working-directory: viewer
+        run: |
+          npm ci || npm install
+          npm run build
+
+      - name: Regenerate samples and fail on drift
+        run: |
+          make samples
+          git diff --exit-code -- samples \
+            || (echo "::error::samples/ drifted; run 'make samples' and commit" && exit 1)
