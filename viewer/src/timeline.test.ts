@@ -70,3 +70,8 @@ test("standalone HTML contains the SVG and no remote URLs", () => {
   const svg = renderTimelineSvg(doc);
   const html = renderStandaloneHtml(doc, svg);
   assert.match(html, /<!DOCTYPE html>/);
+  assert.ok(html.includes(svg));
+  // The only permitted absolute URL is the SVG XML namespace declaration.
+  const withoutSvgNs = html.replace(/http:\/\/www\.w3\.org\/2000\/svg/g, "");
+  assert.ok(!/https?:\/\//.test(withoutSvgNs));
+});
