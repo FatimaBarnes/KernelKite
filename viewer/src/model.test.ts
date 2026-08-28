@@ -44,3 +44,8 @@ test("rejects missing fields", () => {
 });
 
 test("humanBytes formats binary units", () => {
+  assert.equal(humanBytes(512), "512 B");
+  assert.equal(humanBytes(1024), "1.00 KiB");
+  assert.equal(humanBytes(1048576), "1.00 MiB");
+  assert.equal(humanBytes(1610612736), "1.50 GiB");
+});
