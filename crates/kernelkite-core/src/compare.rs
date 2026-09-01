@@ -190,3 +190,15 @@ pub fn compare(before: &ProfileBundle, after: &ProfileBundle) -> Comparison {
     if let (Some(bw), Some(aw)) = (b.write_bytes, a.write_bytes) {
         deltas.push(Delta::new("write_bytes", bw as f64, aw as f64));
     }
+    if let (Some(brx), Some(arx)) = (b.net_rx_bytes, a.net_rx_bytes) {
+        deltas.push(Delta::new("net_rx_bytes", brx as f64, arx as f64));
+    }
+    if let (Some(btx), Some(atx)) = (b.net_tx_bytes, a.net_tx_bytes) {
+        deltas.push(Delta::new("net_tx_bytes", btx as f64, atx as f64));
+    }
+    Comparison {
+        before: b,
+        after: a,
+        deltas,
+    }
+}
