@@ -57,3 +57,7 @@
     {
       "metric": "read_bytes",
       "before": 3506176.0,
+      "after": 1507328.0,
+      "abs_change": -1998848.0,
+      "pct_change": -57.009345794392516
+    },
