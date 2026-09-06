@@ -158,3 +158,19 @@ Loading validates `schema_version`; a mismatch is a hard error
 
 ## Determinism
 
+- **Fixtures** never record wall-clock time and replay their own recorded
+  timestamps, so a replayed bundle is byte-for-byte reproducible
+  (`fixture_replay_is_deterministic`).
+- **BTreeMap** ordering for processes and stable struct field order make JSON
+  output canonical.
+- Fixture frames must be non-decreasing in `t_ms`; out-of-order input is
+  rejected (`fixture_rejects_out_of_order_frames`).
+
+This is what makes before/after comparisons trustworthy: the only thing that
+changed between two fixture-based runs is the input you changed.
+
+## Before/after comparisons
+
+`kernelkite compare before.json after.json` summarizes both bundles and emits a
+`Delta` per shared metric with absolute and percentage change. I/O and network
+deltas appear only when both bundles recorded them. The shipped samples show a
