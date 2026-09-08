@@ -18,3 +18,5 @@ serde = { workspace = true }
 serde_json = { workspace = true }
 
 [features]
+default = []
+ebpf = ["kernelkite-core/ebpf"]
