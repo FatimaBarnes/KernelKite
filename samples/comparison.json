@@ -61,3 +61,7 @@
       "abs_change": -1998848.0,
       "pct_change": -57.009345794392516
     },
+    {
+      "metric": "write_bytes",
+      "before": 2691072.0,
+      "after": 1196032.0,
