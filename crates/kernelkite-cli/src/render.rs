@@ -191,3 +191,25 @@ pub fn viewer_document(bundle: &ProfileBundle) -> ViewerDocument {
                 prev_cpu = Some(cpu);
                 prev_t = Some(f.t_ms);
             } else {
+                // Process absent this frame: hold at zero to keep arrays aligned.
+                cpu_pct.push(0.0);
+                rss_bytes.push(0);
+            }
+        }
+        series.push(ViewerSeries {
+            pid,
+            ppid,
+            comm,
+            cpu_pct,
+            rss_bytes,
+        });
+    }
+
+    ViewerDocument {
+        label: bundle.meta.label.clone(),
+        backend: bundle.meta.backend.as_str().to_string(),
+        interval_ms: bundle.meta.interval_ms,
+        t_ms,
+        series,
+    }
+}
