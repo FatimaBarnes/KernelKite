@@ -57,3 +57,7 @@ impl From<std::io::Error> for Error {
 impl From<serde_json::Error> for Error {
     fn from(e: serde_json::Error) -> Self {
         Error::Json(e)
+    }
+}
+
+pub type Result<T> = std::result::Result<T, Error>;
