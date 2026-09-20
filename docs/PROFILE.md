@@ -174,3 +174,19 @@ changed between two fixture-based runs is the input you changed.
 `kernelkite compare before.json after.json` summarizes both bundles and emits a
 `Delta` per shared metric with absolute and percentage change. I/O and network
 deltas appear only when both bundles recorded them. The shipped samples show a
+build optimization: `-33%` duration, `-56%` CPU, `-60%` peak RSS (see
+`samples/comparison.json`, reproducible with `make samples`).
+
+## Overhead and limitations
+
+- **Sampling blind spots:** sub-interval spikes can be missed. Lower the
+  interval for short loops; raise it for long ones to cut overhead.
+- **Race with short-lived pids:** a process may exit between directory listing
+  and file read. kernelkite treats such I/O `NotFound`s as "process vanished"
+  and skips it rather than failing the capture.
+- **Cumulative counter wrap / reuse:** pids can be reused by the kernel. Within
+  a single capture this is rare and not corrected for; keep captures scoped to
+  one loop.
+- **No per-process network** without eBPF (see above).
+- **Non-Linux hosts:** the `proc` backend returns `Unsupported`; use `fixture`
+  replay to develop, demo, and test the tooling anywhere.
