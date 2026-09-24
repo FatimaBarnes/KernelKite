@@ -83,3 +83,17 @@ pub mod proc_linux {
             Backend::Proc
         }
 
+        fn host_info(&self) -> HostInfo {
+            self.host
+        }
+
+        fn sample(&mut self, _t_ms: u64) -> Result<Option<Frame>> {
+            Err(Error::Unsupported(
+                "the /proc backend requires Linux; use `fixture` replay on this OS".into(),
+            ))
+        }
+    }
+
+    /// Non-Linux host detection just returns conventional defaults.
+    pub fn detect_host_info() -> HostInfo {
+        HostInfo::default()
