@@ -185,3 +185,20 @@ fn parse_command(sub: &str, rest: Vec<String>) -> Result<Command, String> {
             Ok(Command::Compare { before, after })
         }
         "tree" => {
+            let bundle = rest
+                .into_iter()
+                .next()
+                .ok_or_else(|| "tree: missing bundle path".to_string())?;
+            Ok(Command::Tree { bundle })
+        }
+        "viewer" => {
+            let mut p = rest.into_iter();
+            let bundle = p
+                .next()
+                .ok_or_else(|| "viewer: missing bundle path".to_string())?;
+            let out = p.next();
+            Ok(Command::Viewer { bundle, out })
+        }
+        other => Err(format!("unknown command `{other}`")),
+    }
+}
