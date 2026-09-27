@@ -75,3 +75,10 @@ export function parseViewerDocument(input: unknown): ViewerDocument {
     interval_ms: doc.interval_ms,
     t_ms: doc.t_ms,
     series,
+  };
+}
+
+/** Format a byte count with a binary unit suffix (matches the Rust CLI). */
+export function humanBytes(n: number): string {
+  const units = ["B", "KiB", "MiB", "GiB", "TiB", "PiB"];
+  let v = n;
