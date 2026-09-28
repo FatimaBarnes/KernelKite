@@ -37,3 +37,10 @@ impl Default for EbpfSampler {
 impl Sampler for EbpfSampler {
     fn backend(&self) -> Backend {
         Backend::Ebpf
+    }
+
+    fn host_info(&self) -> HostInfo {
+        self.host
+    }
+
+    fn sample(&mut self, _t_ms: u64) -> Result<Option<Frame>> {
