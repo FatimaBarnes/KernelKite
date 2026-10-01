@@ -82,3 +82,10 @@ export function parseViewerDocument(input: unknown): ViewerDocument {
 export function humanBytes(n: number): string {
   const units = ["B", "KiB", "MiB", "GiB", "TiB", "PiB"];
   let v = n;
+  let u = 0;
+  while (v >= 1024 && u < units.length - 1) {
+    v /= 1024;
+    u += 1;
+  }
+  return u === 0 ? `${n} B` : `${v.toFixed(2)} ${units[u]}`;
+}
