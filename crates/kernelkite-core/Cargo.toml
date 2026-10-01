@@ -23,3 +23,6 @@ default = []
 # fabricated eBPF data is ever produced. See docs/PROFILE.md.
 ebpf = []
 
+[lib]
+name = "kernelkite_core"
+path = "src/lib.rs"
