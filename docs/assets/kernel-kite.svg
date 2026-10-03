@@ -82,3 +82,11 @@
     <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
       <path d="M0 0 L8 4 L0 8 Z" fill="#3d4c5e"/>
     </marker>
+  </defs>
+
+  <!-- wordmark -->
+  <g font-family="monospace">
+    <text x="60" y="250" font-size="26" font-weight="bold" fill="#e6edf3">kernel<tspan fill="#5fb3a1">kite</tspan></text>
+    <text x="60" y="272" font-size="12" fill="#8fa3b8">local /proc process-loop profiler, deterministic replay on any OS</text>
+  </g>
+</svg>
