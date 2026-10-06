@@ -44,3 +44,10 @@ impl Sampler for EbpfSampler {
     }
 
     fn sample(&mut self, _t_ms: u64) -> Result<Option<Frame>> {
+        Err(Error::Unsupported(
+            "eBPF backend is a planned future feature and is not implemented; \
+             use the `proc` backend on Linux or `fixture` replay elsewhere"
+                .into(),
+        ))
+    }
+}
