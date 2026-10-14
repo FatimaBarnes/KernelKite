@@ -109,6 +109,13 @@ impl Cli {
         let rest: Vec<String> = it.collect();
         let command = parse_command(&sub, rest)?;
 
+        if interval_ms == 0 {
+            return Err(
+                "--interval-ms must be greater than zero; a zero interval samples in a busy loop"
+                    .to_string(),
+            );
+        }
+
         Ok(Cli {
             interval_ms,
             max_frames,
@@ -200,5 +207,20 @@ fn parse_command(sub: &str, rest: Vec<String>) -> Result<Command, String> {
             Ok(Command::Viewer { bundle, out })
         }
         other => Err(format!("unknown command `{other}`")),
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn a_zero_interval_is_rejected() {
+        let err = Cli::parse(["--interval-ms", "0", "version"].map(String::from)).unwrap_err();
+        assert!(
+            err.contains("--interval-ms must be greater than zero"),
+            "{err}"
+        );
+        assert!(Cli::parse(["--interval-ms", "1", "version"].map(String::from)).is_ok());
     }
 }
